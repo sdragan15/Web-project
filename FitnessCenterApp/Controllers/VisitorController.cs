@@ -114,7 +114,7 @@ namespace FitnessCenterApp.Controllers
 
                 visitorList.ForEach(x => visitors.Add(x));
 
-                string result = JsonSerializer.Serialize<List<Visitor>>(visitorList);
+                string result = JsonSerializer.Serialize<List<Visitor>>(visitors);
 
                 using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))
