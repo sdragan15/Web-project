@@ -155,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CoachController.cs" />
+    <Compile Include="Controllers\FitenssCenterController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\VisitorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

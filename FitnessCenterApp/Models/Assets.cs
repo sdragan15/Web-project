@@ -7,6 +7,7 @@ namespace FitnessCenterApp.Models
 {
     public class Assets
     {
-        public static string UsersFile = "users.json";
+        public static string UsersFile = "visitors.json";
+        public static string FitnessCenterFile = "fitensscenter.json";
     }
 }

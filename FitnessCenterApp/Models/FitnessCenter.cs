@@ -2,6 +2,7 @@
 {
     public class FitnessCenter
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public Address FitnessAdress { get; set; }
         public int Opened { get; set; }
