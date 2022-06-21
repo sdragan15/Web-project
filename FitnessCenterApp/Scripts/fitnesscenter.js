@@ -1,5 +1,6 @@
-﻿$(document).ready(function () {
-    var data = {}
+﻿var data = {}
+
+$(document).ready(function () {
     $.ajax({
         type: "GET",
         url: "http://localhost:64103/api/FitenssCenter",
@@ -7,31 +8,118 @@
         dataType: "json",
         success: function (response) {
             data = JSON.parse(response)
-            for(let j=0; j<data.length-1; j++){
-                var min = data[j]
-                var tempIdx = j
-                for(let i=j+1; i<data.length; i++){
-                    if(data[i]['Name'].localeCompare(min['Name']) == -1){
-                        min = data[i]
-                        tempIdx = i
-                    }
-                }
-                var temp = data[j]
-                data[j] = min
-                data[tempIdx] = temp
-            }
+            
+            data = CustomSortString(data, 'Name', -1)
             
             data.forEach(element => {
                 AddFitnessToTable(element)
                 console.log(element)
             });
-            
         }
     });
 });
 
+$('#table_name').click(function (e) {
+    var type = 0
+    if($(this).hasClass('asc')){
+        $(this).removeClass('asc');
+        $(this).addClass('desc');
+        type = 1
+    }
+    else if($(this).hasClass('desc')){
+        $(this).removeClass('desc');
+        $(this).addClass('asc');
+        type = -1
+    }
+    else{
+        $(this).addClass('asc'); 
+        type = -1
+    }
+
+    data = CustomSortString(data, 'Name', type)
+    DeleteFitnessRows()
+    data.forEach(element => {
+        AddFitnessToTable(element)
+    });
+
+});
+
+$('#table_year').click(function (e) {
+    var type = 0
+    if($(this).hasClass('asc')){
+        $(this).removeClass('asc');
+        $(this).addClass('desc');
+        type = 1
+    }
+    else if($(this).hasClass('desc')){
+        $(this).removeClass('desc');
+        $(this).addClass('asc');
+        type = -1
+    }
+    else{
+        $(this).addClass('asc'); 
+        type = -1
+    }
+
+    data = CustomSortNumber(data, 'Opened', type)
+    DeleteFitnessRows()
+    data.forEach(element => {
+        AddFitnessToTable(element)
+    });
+
+});
+
+function DeleteFitnessRows(){
+    $("#fitness_table").find("tr:gt(0)").remove();
+}
 
 function AddFitnessToTable(fitness){
     var result = '<tr><td>' + fitness['Name'] + '</td><td>' + fitness['FitnessAdress'] + '</td><td>' + fitness['Opened'] + '</td></tr>'
     $('#fitness_table').append(result)
+}
+
+// data = data for sorting; value = what property are sorting; type = asscending/descending (-1, 1)
+
+
+function CustomSortNumber(data, value, type){
+    for(let j=0; j<data.length-1; j++){         
+        var min = data[j]
+        var tempIdx = j
+        for(let i=j+1; i<data.length; i++){
+            if(type == -1){
+                if(data[i][value] < min[value]){
+                    min = data[i]
+                    tempIdx = i
+                }
+            }
+            else{
+                if(data[i][value] > min[value]){
+                    min = data[i]
+                    tempIdx = i
+                }
+            }
+            
+        }
+        var temp = data[j]
+        data[j] = min
+        data[tempIdx] = temp
+    }
+    return data
+}
+
+function CustomSortString(data, value, type){
+    for(let j=0; j<data.length-1; j++){         
+        var min = data[j]
+        var tempIdx = j
+        for(let i=j+1; i<data.length; i++){
+            if(data[i][value].localeCompare(min[value]) == type){
+                min = data[i]
+                tempIdx = i
+            }
+        }
+        var temp = data[j]
+        data[j] = min
+        data[tempIdx] = temp
+    }
+    return data
 }

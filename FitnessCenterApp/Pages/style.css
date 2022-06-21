@@ -1,0 +1,12 @@
+body{
+    background-color: #bbb6d6;
+}
+
+#fitness_table{
+    border: black 1px solid;
+}
+
+#fitness_table tr, th, td{
+    border: black 1px solid;
+}
+
