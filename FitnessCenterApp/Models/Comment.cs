@@ -7,6 +7,7 @@ namespace FitnessCenterApp.Models
 {
     public class Comment
     {
+        public int Id { get; set; }
         public string FromUser { get; set; }                // user id
         public int ToFitnessCenter { get; set; }            // fitness center id 
         public string Text { get; set; }

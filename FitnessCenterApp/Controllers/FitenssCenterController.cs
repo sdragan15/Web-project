@@ -17,17 +17,17 @@ namespace FitnessCenterApp.Controllers
         [HttpPost]
         public HttpResponseMessage AddFitnessCenter(FitnessCenter center)
         {
-            FitnessCenter temp = new FitnessCenter();
-            temp.FitnessAddress = new Address() { City = "Novi Sad", PostalCode = "12322", StreetAndNumber = "Bulevar Oslobodjenja" };
-            temp.FitnessOwner = "Miladin123";
-            temp.GroupTrainingCost = 800;
-            temp.Id = 1;
-            temp.MonthlyMembershipCost = 3000;
-            temp.Name = "Synergy";
-            temp.Opened = 2010;
-            temp.ProffesionalTrainingCost = 900;
-            temp.TrainingCost = 500;
-            temp.YearlyembershipCost = 20000;
+            //FitnessCenter temp = new FitnessCenter();
+            //temp.FitnessAddress = new Address() { City = "Novi Sad", PostalCode = "12322", StreetAndNumber = "Bulevar Oslobodjenja" };
+            //temp.FitnessOwner = "Miladin123";
+            //temp.GroupTrainingCost = 800;
+            //temp.Id = 1;
+            //temp.MonthlyMembershipCost = 3000;
+            //temp.Name = "Synergy";
+            //temp.Opened = 2010;
+            //temp.ProffesionalTrainingCost = 900;
+            //temp.TrainingCost = 500;
+            //temp.YearlyembershipCost = 20000;
 
             List<FitnessCenter> fitnesses = ReadFitnessCenterFromFIle(path);
             if (fitnesses.Count > 0)
@@ -35,7 +35,7 @@ namespace FitnessCenterApp.Controllers
             else
                 center.Id = 0;
 
-            List<FitnessCenter> centers = new List<FitnessCenter>() { temp };
+            List<FitnessCenter> centers = new List<FitnessCenter>() { center };
             foreach (FitnessCenter f in fitnesses)
             {
                 if (f.Id == center.Id)

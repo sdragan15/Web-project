@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#proffesional').text(FitnessCenter.ProffesionalTrainingCost)
 
     GetAllGroupTrainings(FitnessCenter.Id)    
-    
+    GenerateAllCommentsForFitnessCenter(FitnessCenter.Id)
 });
 
 function GetAllGroupTrainings(id){
@@ -68,3 +68,20 @@ function GenerateGroupTraining(element){
 
 }
 
+function GenerateAllCommentsForFitnessCenter(id){
+    $.ajax({
+        type: "GET",
+        url: "../api/Comment/ForFitnessCenter/" + id,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            data = JSON.parse(response)
+            data.forEach(element => {
+                let query = '<tr><td>' + element.FromUser + '</td>' +
+                            '<td>' + element.Text + '</td>' +
+                            '<td>' + element.Grade + '</td></tr>'
+                $('#comment_table').append(query)
+            });
+        }
+    });
+}
