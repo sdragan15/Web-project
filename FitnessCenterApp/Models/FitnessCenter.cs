@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Address FitnessAdress { get; set; }
+        public Address FitnessAddress { get; set; }
         public int Opened { get; set; }
         public Owner FitnessOwner { get; set; }
         public int MonthlyMembershipCost { get; set; }
