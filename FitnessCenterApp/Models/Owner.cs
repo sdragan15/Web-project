@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FitnessCenterApp.Models
 {
-    public class Owner
+    public class Owner: User
     {
         public FitnessCenter OwnerOfFitnessCenter { get; set; }
 

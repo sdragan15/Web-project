@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FitnessCenterApp.Models
 {
-    public class Coach
+    public class Coach: User
     {
         public List<GroupTraining> TrainerForGroups { get; set; }
         public FitnessCenter WorkingInFitnessCenter { get; set; }

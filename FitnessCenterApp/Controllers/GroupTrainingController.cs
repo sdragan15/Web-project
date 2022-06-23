@@ -10,27 +10,37 @@ using System.Web.Http;
 
 namespace FitnessCenterApp.Controllers
 {
-    public class FitenssCenterController : ApiController
+    public class GroupTrainingController : ApiController
     {
-        private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.FitnessCenterFile);
+        private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
 
         [HttpPost]
-        public HttpResponseMessage AddFitnessCenter(FitnessCenter center)
+        public HttpResponseMessage AddGroupTraining(GroupTraining training)
         {
-            List<FitnessCenter> fitnesses = ReadFitnessCenterFromFIle(path);
-            center.Id = fitnesses[fitnesses.Count - 1].Id + 1;
+            GroupTraining temp = new GroupTraining();
+            temp.Id = 0;
+            temp.MaxVisitors = 100;
+            temp.Name = "Trening bro";
+            temp.Place = new FitnessCenter() { Id = 1 };
+            temp.TrainingType = TypeOfTraining.BODY_PUMP;
+            temp.Duration = 60;
+            temp.DateAndTime = new DateTime();
 
-            List<FitnessCenter> centers = new List<FitnessCenter>() { center };
-            foreach (FitnessCenter f in fitnesses)
+            List<GroupTraining> result = ReadGroupTrainingsFromFIle(path);
+            if(result.Count > 0)
+                training.Id = result[result.Count - 1].Id + 1;
+
+            List<GroupTraining> trainings = new List<GroupTraining>() { temp };
+            foreach (GroupTraining f in result)
             {
-                if (f.Id == center.Id)
+                if (f.Id == training.Id)
                 {
                     HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.BadRequest);
                     return message;
                 }
             }
 
-            if (AddFitnessCenterToFile(centers, path))
+            if (AddGroupTrainingToFile(trainings, path))
             {
                 return new HttpResponseMessage(HttpStatusCode.Created);
             }
@@ -42,18 +52,18 @@ namespace FitnessCenterApp.Controllers
         [HttpDelete]
         public HttpResponseMessage DeleteFitnessCenter(int id)
         {
-            FitnessCenter temp = null;
-            List<FitnessCenter> centers = ReadFitnessCenterFromFIle(path);
-            foreach(FitnessCenter c in centers)
+            GroupTraining temp = null;
+            List<GroupTraining> centers = ReadGroupTrainingsFromFIle(path);
+            foreach (GroupTraining c in centers)
             {
-                if(c.Id == id)
+                if (c.Id == id)
                 {
                     temp = c;
                 }
             }
             HttpResponseMessage message;
 
-            if(temp != null)
+            if (temp != null)
             {
                 centers.Remove(temp);
                 message = new HttpResponseMessage(HttpStatusCode.OK);
@@ -63,7 +73,7 @@ namespace FitnessCenterApp.Controllers
                 message = new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
-            AddFitnessCenterToFile(centers, path);
+            AddGroupTrainingToFile(centers, path);
 
             return message;
 
@@ -73,44 +83,44 @@ namespace FitnessCenterApp.Controllers
         public string GetFitnessCenter(int id)
         {
 
-            List<FitnessCenter> centers = ReadFitnessCenterFromFIle(path);
+            List<GroupTraining> centers = ReadGroupTrainingsFromFIle(path);
 
-            FitnessCenter center = centers.FirstOrDefault(x => x.Id == id);
+            GroupTraining center = centers.FirstOrDefault(x => x.Id == id);
 
             return JsonSerializer.Serialize(center);
 
         }
 
         [HttpGet]
-        public string GetAllFitnessCenters()
+        public string GetAllGroupTrainings()
         {
-            return JsonSerializer.Serialize(ReadFitnessCenterFromFIle(path));
+            return JsonSerializer.Serialize(ReadGroupTrainingsFromFIle(path));
         }
 
-        private List<FitnessCenter> ReadFitnessCenterFromFIle(string path)
+        private List<GroupTraining> ReadGroupTrainingsFromFIle(string path)
         {
             try
             {
                 string data = File.ReadAllText(path);
-                List<FitnessCenter> visitors = JsonSerializer.Deserialize<List<FitnessCenter>>(data);
+                List<GroupTraining> visitors = JsonSerializer.Deserialize<List<GroupTraining>>(data);
                 return visitors;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return new List<FitnessCenter>();
+                return new List<GroupTraining>();
             }
         }
 
-        private bool AddFitnessCenterToFile(List<FitnessCenter> visitorList, string path)
+        private bool AddGroupTrainingToFile(List<GroupTraining> visitorList, string path)
         {
             try
             {
-                List<FitnessCenter> visitors = ReadFitnessCenterFromFIle(path);
+                List<GroupTraining> visitors = ReadGroupTrainingsFromFIle(path);
 
                 visitorList.ForEach(x => visitors.Add(x));
 
-                string result = JsonSerializer.Serialize<List<FitnessCenter>>(visitors);
+                string result = JsonSerializer.Serialize<List<GroupTraining>>(visitors);
 
                 using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))

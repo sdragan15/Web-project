@@ -5,6 +5,7 @@ namespace FitnessCenterApp.Models
 {
     public class GroupTraining
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public TypeOfTraining TrainingType { get; set; }
         public FitnessCenter Place { get; set; }
