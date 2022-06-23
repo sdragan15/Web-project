@@ -16,8 +16,19 @@ namespace FitnessCenterApp.Controllers
 
         [HttpPost]
         public HttpResponseMessage RegisterVisitor(Visitor user)
-        {  
-            List<Visitor> visitors = new List<Visitor>() { user };
+        {
+            Visitor temp = new Visitor();
+            temp.Name = "Milica";
+            temp.Lastname = "Milic";
+            temp.Username = "micka";
+            temp.Password = "milica123";
+            temp.RegisteredTrainings = new List<int>() { 0 };
+            temp.UserGender = Gender.FEMALE;
+            temp.UserRole = Role.VISITOR;
+            temp.Email = "milica@gmail.com";
+            temp.Birth = new DateTime(2000, 2, 1);
+
+            List<Visitor> visitors = new List<Visitor>() { temp };
 
             List<Visitor> registeredVisitors = ReadVisitorsFromFIle(path);
             foreach(Visitor visitor in registeredVisitors)
@@ -51,6 +62,24 @@ namespace FitnessCenterApp.Controllers
             Visitor visitor = visitors.FirstOrDefault(x => x.Username == username);
 
             return JsonSerializer.Serialize(visitor);
+
+        }
+
+        [Route("api/Visitor/Number/{id}")]
+        public string GetNumberOfVisitorsByTrainingID(int id)
+        {
+
+            List<Visitor> visitors = ReadVisitorsFromFIle(path);
+            int count = 0;
+            foreach(Visitor visitor in visitors)
+            {
+                if (visitor.RegisteredTrainings.Contains(id))
+                {
+                    count++;
+                }
+            }
+
+            return JsonSerializer.Serialize(count);
 
         }
 

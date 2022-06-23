@@ -1,4 +1,5 @@
-var AllGroupTrainings
+var AllGroupTrainings = []
+var AllVisitors = []
 
 $(document).ready(function () {
     FitnessCenter = JSON.parse(localStorage.FitnessCenter)
@@ -17,9 +18,7 @@ $(document).ready(function () {
     $('#group').text(FitnessCenter.GroupTrainingCost)
     $('#proffesional').text(FitnessCenter.ProffesionalTrainingCost)
 
-    GetAllGroupTrainings(FitnessCenter.Id)
-    
-    
+    GetAllGroupTrainings(FitnessCenter.Id)    
     
 });
 
@@ -31,14 +30,31 @@ function GetAllGroupTrainings(id){
         dataType: "json",
         success: function (response) {
             data = JSON.parse(response)
+            console.log(data)
             data.forEach(element => {
                 GenerateGroupTraining(element)
+                console.log('broj: ' + element.Id)
             });
         }
     });
 }
 
+function GetNumberOfVisitorsForTraining(id){
+    $.ajax({
+        type: "GET",
+        url: "../api/Visitor/Number/" + id,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            data = JSON.parse(response)
+            let idtext = '#number_' + id
+            $(idtext).text(data)
+        }
+    });
+}
+
 function GenerateGroupTraining(element){
+    GetNumberOfVisitorsForTraining(element.Id)
     query = '<tr><td>' + element.Name + '</td>' +
                 '<td>' + element.TrainingType +'</td>' +
                 '<td>' + element.Place + '</td>' +
@@ -46,8 +62,9 @@ function GenerateGroupTraining(element){
                 '<td>' + element.DateAndTime.split('T')[0] + '</td>' +
                 '<td>' + element.DateAndTime.split('T')[1] + '</td>' +
                 '<td>' + element.MaxVisitors + '</td>' + 
-                '<td>123</td></tr>'
+                '<td id=\'number_' + element.Id +'\'></td></tr>'
     $('#group_table').append(query)
-    console.log(element)
+    //console.log(element)
 
 }
+

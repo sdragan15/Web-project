@@ -7,7 +7,7 @@ namespace FitnessCenterApp.Models
 {
     public class Visitor: User
     {
-        public List<GroupTraining> RegisteredTrainings { get; set; }
+        public List<int> RegisteredTrainings { get; set; }
 
         public Visitor()
         {

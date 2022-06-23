@@ -18,13 +18,13 @@ namespace FitnessCenterApp.Controllers
         public HttpResponseMessage AddGroupTraining(GroupTraining training)
         {
 
-            GroupTraining temp = new GroupTraining();
-            temp.DateAndTime = new DateTime();
-            temp.Duration = 60;
-            temp.MaxVisitors = 100;
-            temp.Name = "training 2";
-            temp.Place = 1;
-            temp.TrainingType = TypeOfTraining.BODY_PUMP;
+            //GroupTraining temp = new GroupTraining();
+            //temp.DateAndTime = new DateTime();
+            //temp.Duration = 60;
+            //temp.MaxVisitors = 100;
+            //temp.Name = "training 2";
+            //temp.Place = 1;
+            //temp.TrainingType = TypeOfTraining.BODY_PUMP;
             
 
             List<GroupTraining> result = ReadGroupTrainingsFromFIle(path);
@@ -33,7 +33,7 @@ namespace FitnessCenterApp.Controllers
             else
                 training.Id = 0;
 
-            List<GroupTraining> trainings = new List<GroupTraining>() { temp };
+            List<GroupTraining> trainings = new List<GroupTraining>() { training };
             foreach (GroupTraining f in result)
             {
                 if (f.Id == training.Id)
