@@ -1,4 +1,6 @@
-﻿namespace FitnessCenterApp.Models
+﻿using System.Collections.Generic;
+
+namespace FitnessCenterApp.Models
 {
     public class FitnessCenter
     {
@@ -6,7 +8,7 @@
         public string Name { get; set; }
         public Address FitnessAddress { get; set; }
         public int Opened { get; set; }
-        public Owner FitnessOwner { get; set; }
+        public string FitnessOwner { get; set; }            // owner id
         public int MonthlyMembershipCost { get; set; }
         public int YearlyembershipCost { get; set; }
         public int TrainingCost { get; set; }

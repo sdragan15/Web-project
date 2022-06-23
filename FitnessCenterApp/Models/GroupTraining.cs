@@ -7,12 +7,12 @@ namespace FitnessCenterApp.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TypeOfTraining TrainingType { get; set; }
-        public FitnessCenter Place { get; set; }
+        public string TrainingType { get; set; }
+        public int Place { get; set; }
         public int Duration { get; set; }
         public DateTime DateAndTime { get; set; }
         public int MaxVisitors { get; set; }
-        public List<Visitor> Visitors { get; set; }
+        public List<string> Visitors { get; set; }          // list of visitors id
 
         public GroupTraining()
         {

@@ -1,9 +1,9 @@
 ﻿namespace FitnessCenterApp.Models
 {
-    public enum TypeOfTraining
+    public static class TypeOfTraining
     {
-        YOGA,
-        LES_MILLS_TONE,
-        BODY_PUMP
+        public const string YOGA = "YOGA";
+        public const string LES_MILLS_TONE = "LES MILLS TONE";
+        public const string BODY_PUMP = "BODY PUMP";
     }
 }

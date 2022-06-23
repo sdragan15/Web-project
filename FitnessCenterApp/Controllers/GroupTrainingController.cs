@@ -17,18 +17,21 @@ namespace FitnessCenterApp.Controllers
         [HttpPost]
         public HttpResponseMessage AddGroupTraining(GroupTraining training)
         {
+
             GroupTraining temp = new GroupTraining();
-            temp.Id = 0;
-            temp.MaxVisitors = 100;
-            temp.Name = "Trening bro";
-            temp.Place = new FitnessCenter() { Id = 1 };
-            temp.TrainingType = TypeOfTraining.BODY_PUMP;
-            temp.Duration = 60;
             temp.DateAndTime = new DateTime();
+            temp.Duration = 60;
+            temp.MaxVisitors = 100;
+            temp.Name = "training 2";
+            temp.Place = 1;
+            temp.TrainingType = TypeOfTraining.BODY_PUMP;
+            
 
             List<GroupTraining> result = ReadGroupTrainingsFromFIle(path);
-            if(result.Count > 0)
+            if (result.Count > 0)
                 training.Id = result[result.Count - 1].Id + 1;
+            else
+                training.Id = 0;
 
             List<GroupTraining> trainings = new List<GroupTraining>() { temp };
             foreach (GroupTraining f in result)
@@ -50,7 +53,7 @@ namespace FitnessCenterApp.Controllers
         }
 
         [HttpDelete]
-        public HttpResponseMessage DeleteFitnessCenter(int id)
+        public HttpResponseMessage DeleteGroupTraining(int id)
         {
             GroupTraining temp = null;
             List<GroupTraining> centers = ReadGroupTrainingsFromFIle(path);
@@ -79,8 +82,24 @@ namespace FitnessCenterApp.Controllers
 
         }
 
+        [Route("api/GroupTraining/AllGroups/{id}")]
+        public string GetAllGroupTrainigsByFitnessCenterId(int id)
+        {
+            List<GroupTraining> result = new List<GroupTraining>();
+            List<GroupTraining> trainings = ReadGroupTrainingsFromFIle(path);
+            foreach(GroupTraining t in trainings)
+            {
+                if(t.Place == id)
+                {
+                    result.Add(t);
+                }
+            }
+
+            return JsonSerializer.Serialize(result);
+        }
+
         [HttpGet]
-        public string GetFitnessCenter(int id)
+        public string GetGroupTraining(int id)
         {
 
             List<GroupTraining> centers = ReadGroupTrainingsFromFIle(path);
