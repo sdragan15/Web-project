@@ -1,7 +1,15 @@
 var AllGroupTrainings = []
 var AllVisitors = []
 
+
 $(document).ready(function () {
+    if(localStorage.LoggedInUser != null && localStorage.LoggedInUser != ''){      
+        LoggedInMode()
+    }
+    else{
+        NoLoggedUserMode()
+    }
+
     FitnessCenter = JSON.parse(localStorage.FitnessCenter)
     
     $('#name').text(FitnessCenter.Name)
@@ -21,6 +29,14 @@ $(document).ready(function () {
     GetAllGroupTrainings(FitnessCenter.Id)    
     GenerateAllCommentsForFitnessCenter(FitnessCenter.Id)
 });
+
+function NoLoggedUserMode(){
+    $('#signout_nav').hide()
+}
+
+function LoggedInMode(){
+    $('#login_nav').hide()
+}
 
 function GetAllGroupTrainings(id){
     $.ajax({

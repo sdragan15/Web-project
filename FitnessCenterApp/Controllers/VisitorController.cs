@@ -12,7 +12,7 @@ namespace FitnessCenterApp.Controllers
 {
     public class VisitorController : ApiController
     {
-        private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.UsersFile);
+        private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.VisitorsFile);
 
         [HttpPost]
         public HttpResponseMessage RegisterVisitor(Visitor user)
@@ -72,7 +72,7 @@ namespace FitnessCenterApp.Controllers
             int count = 0;
             foreach(Visitor visitor in visitors)
             {
-                if (visitor.RegisteredTrainings.Contains(id))
+                if (visitor.RegisteredTrainings != null && visitor.RegisteredTrainings.Contains(id))
                 {
                     count++;
                 }

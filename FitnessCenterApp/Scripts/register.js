@@ -1,3 +1,20 @@
+$(document).ready(function () {
+    if(localStorage.LoggedInUser != null && localStorage.LoggedInUser != ''){      
+        LoggedInMode()
+    }
+    else{
+        NoLoggedUserMode()       
+    }
+});
+
+function NoLoggedUserMode(){
+    $('#signout_nav').hide()
+}
+
+function LoggedInMode(){
+    $('#login_nav').hide()
+}
+
 $('#register_form').submit(function (e) { 
     let apiString = 'Visitor'
     let role = 'VISITOR'

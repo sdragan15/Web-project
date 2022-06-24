@@ -166,6 +166,7 @@
     </Compile>
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Assets.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Coach.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\FitnessCenter.cs" />

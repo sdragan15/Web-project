@@ -1,5 +1,14 @@
 ﻿
 $(document).ready(function () {
+    if(localStorage.LoggedInUser != null && localStorage.LoggedInUser != ''){
+        $('#hello_message').text('Hello ' + localStorage.LoggedInUser.split('_')[1])
+        LoggedInMode()
+    }
+    else{
+        NoLoggedUserMode()
+    }
+    
+
     $.ajax({
         type: "GET",
         url: "../api/FitenssCenter",
@@ -17,6 +26,13 @@ $(document).ready(function () {
     });
 });
 
+function NoLoggedUserMode(){
+    $('#signout_nav').hide()
+}
+
+function LoggedInMode(){
+    $('#login_nav').hide()
+}
 
 $(document).on("click", ".details_btn" , function() {
     location.href='fitnesscenterDetails.html';

@@ -153,5 +153,6 @@ namespace FitnessCenterApp.Controllers
                 return false;
             }
         }
+
     }
 }
