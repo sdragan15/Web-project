@@ -6,8 +6,19 @@ body{
     border: black 1px solid;
 }
 
-#fitness_table tr, th, td{
+#fitness_table tr{
     border: black 1px solid;
+}
+#fitness_table td{
+  border: black 1px solid;
+}
+#fitness_table th{
+  border: black 1px solid;
+}
+
+.error
+{
+ border:2px solid red;
 }
 
 .topnav {

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="../Scripts/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        <a href="../Pages/index.html">Home</a>
+        <a class="active" href="../Pages/register.html">Register</a>
+        <a href="#contact">Sing in</a>
+        <a href="#about">Sing out</a>
+    </div> 
+    <h1>Registration</h1>
+
+<form id="register_form">
+    <table id="#register_table">
+        <tr>
+            <th>Username:</th>
+            <td>
+                <input type="text" name="username">
+            </td>
+        </tr>
+        <tr>
+            <th id="name">Name:</th>
+            <td>
+                <input type="text" name="name">
+            </td>
+        </tr>
+        <tr>
+            <th>Last name:</th>
+            <td>
+                <input type="text" name="lastname">
+            </td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>
+                <input type="email" name="email">
+            </td>
+        </tr>
+        <tr>
+            <th>Password:</th>
+            <td>
+                <input type="password" name="password">
+            </td>
+        </tr>
+        <tr>
+            <th>Date of birth:</th>
+            <td>
+                <input type="date" name="birth">
+            </td>
+        </tr>
+        <tr>
+            <th>Gender:</th>
+            <td>
+                <input type="radio" checked id="male" name="gender" value="male"> Male
+                <input type="radio" name="gender" value="female"> Female
+            </td>
+        </tr>
+        <tr>
+            <th>Register as:</th>
+            <td>
+                <select id="role">
+                    <option>User</option>
+                    <option>Trainer</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" id="register_submit" value="Register">
+            </td>
+        </tr>
+    </table>
+</form>
+    
+    
+
+    <script src="../Scripts/register.js"></script>
+</body>
