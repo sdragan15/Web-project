@@ -35,8 +35,7 @@ namespace FitnessCenterApp.Controllers
             {
                 if(visitor.Username == user.Username)
                 {
-                    HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.BadRequest);
-                    return message;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
                 }
             }
 

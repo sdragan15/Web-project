@@ -79,16 +79,16 @@ $('#register_form').submit(function (e) {
     else{
         elem.removeClass('error')
     }
-
-    e.preventDefault()
-    
+   
     
     var query = {Username:username, Name:name,
                 Lastname:lastname, Password:password,
                 UserGender:gender, Email:email,
                 Birth:birth, UserRole:role}
     query = JSON.stringify(query)
-    console.log(query)
+
+
+    e.preventDefault()
 
     $.ajax({
         type: "POST",
@@ -96,11 +96,13 @@ $('#register_form').submit(function (e) {
         data: query,
         dataType: "json",
         contentType: "application/json",
-        success: function (response) {
-            console.log(response)
-        },
-        error: function(response){
-            console.log(response)
+        complete: function(response){
+            if(response.status != 201){
+                alert(response.responseText)
+            }
+            else{
+                window.location.href = '/Pages/index.html'
+            }
         }
     });
     
