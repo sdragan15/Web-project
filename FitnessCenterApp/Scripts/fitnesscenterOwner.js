@@ -1,5 +1,8 @@
+var FitnessOwnerUsername
+
 $(document).ready(function () {    
-    let apiQuery = 'FitenssCenterForOwner?username=' + localStorage.LoggedInUser.split('_')[1]
+    FitnessOwnerUsername = localStorage.LoggedInUser.split('_')[1]
+    let apiQuery = 'FitenssCenterForOwner?username=' + FitnessOwnerUsername
 
     $.ajax({
         type: "GET",
@@ -17,6 +20,69 @@ $(document).ready(function () {
         }
     });
 });
+
+$('#add_fitness_form').submit(function (e) { 
+    let name = $('input[name=name]').val()
+    let city = $('input[name=city]').val()
+    let address = $('input[name=address]').val()
+    let postalcode = $('input[name=postalcode]').val()
+    let opened = $('input[name=opened]').val()
+    
+
+    let one_training = $('input[name=one_training]').val()
+    let monthly = $('input[name=monthly]').val()
+    let yearly = $('input[name=yearly]').val()
+    let group = $('input[name=group]').val()
+    let proffesional = $('input[name=proffesional]').val()
+
+    
+
+    if(ValidateInput(name, 'name') && ValidateInput(city, 'city') &&
+    ValidateInput(address, 'address') && ValidateInput(postalcode, 'postalcode') &&
+    ValidateInput(opened, 'opened') && ValidateInput(one_training, 'one_training') &&
+    ValidateInput(monthly, 'monthly') && ValidateInput(yearly, 'yearly') && 
+    ValidateInput(group, 'group') && ValidateInput(proffesional, 'proffesional')){
+
+        let addressQuery = {City:city, StreetAndNumber:address, PostalCode:postalcode}
+        let query = {Name:name, FitnessAddress:addressQuery, Opened:opened, MonthlyMembershipCost:monthly,
+            YearlyembershipCost:yearly, TrainingCost:one_training, GroupTrainingCost:group, ProffesionalTrainingCost:proffesional,
+            FitnessOwner:FitnessOwnerUsername}
+
+        query = JSON.stringify(query)
+
+        $.ajax({
+            type: "POST",
+            url: "../api/FitenssCenter",
+            data: query,
+            dataType: "json",
+            contentType: "application/json",
+            complete: function(response){
+                if(response.status != 201){
+                    alert(response.responseText)
+                }
+            }
+        });
+        location.reload()
+        return true
+    }
+    else{
+        return false
+    }
+
+    
+});
+
+function ValidateInput(value, name){
+    if(value == ''){
+        $('input[name=' + name + ']').addClass('error')
+        $('input[name=' + name + ']').focus()
+        return false
+    }
+    else{
+        $('input[name=' + name + ']').removeClass('error')
+        return true
+    }
+}
 
 function AddFitnessToTableForOwner(fitness){
     var result = '<tr><td>' + fitness['Name'] +

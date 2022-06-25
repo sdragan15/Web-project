@@ -14,10 +14,11 @@ namespace FitnessCenterApp.Models
         public int TrainingCost { get; set; }
         public int GroupTrainingCost { get; set; }
         public int ProffesionalTrainingCost { get; set; }
+        public bool Deleted { get; set; }
 
         public FitnessCenter()
         {
-
+            Deleted = false;
         }
     }
 }
