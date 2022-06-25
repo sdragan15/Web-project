@@ -30,7 +30,7 @@ namespace FitnessCenterApp.Controllers
 
             List<Visitor> visitors = new List<Visitor>() { user };
 
-            List<Visitor> registeredVisitors = ReadVisitorsFromFIle(path);
+            List<Visitor> registeredVisitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
             foreach(Visitor visitor in registeredVisitors)
             {
                 if(visitor.Username == user.Username)
@@ -39,7 +39,7 @@ namespace FitnessCenterApp.Controllers
                 }
             }
 
-            if(AddVisitorsToFile(visitors, path))
+            if(WorkingWithFiles.AddEntitiesToFile<Visitor>(visitors, path))
             {
                 HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.Created);
                 return message;
@@ -56,7 +56,7 @@ namespace FitnessCenterApp.Controllers
         public string GetVisitor(string username)
         {
             
-            List<Visitor> visitors = ReadVisitorsFromFIle(path);
+            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
 
             Visitor visitor = visitors.FirstOrDefault(x => x.Username == username);
 
@@ -68,7 +68,7 @@ namespace FitnessCenterApp.Controllers
         public string GetNumberOfVisitorsByTrainingID(int id)
         {
 
-            List<Visitor> visitors = ReadVisitorsFromFIle(path);
+            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
             int count = 0;
             foreach(Visitor visitor in visitors)
             {
@@ -85,7 +85,7 @@ namespace FitnessCenterApp.Controllers
         [HttpPut]
         public HttpResponseMessage UpdateVisitor(Visitor visitor)
         {
-            List<Visitor> visitors = ReadVisitorsFromFIle(path);
+            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
 
             Visitor temp = null;
 
@@ -107,7 +107,7 @@ namespace FitnessCenterApp.Controllers
 
             message = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
-            AddVisitorsToFile(visitors, path);
+            WorkingWithFiles.AddEntitiesToFile<Visitor>(visitors, path);
 
             return message;
 
@@ -116,45 +116,9 @@ namespace FitnessCenterApp.Controllers
         [HttpGet]
         public string GetAllVisitors()
         {
-            return JsonSerializer.Serialize(ReadVisitorsFromFIle(path));
+            return JsonSerializer.Serialize(WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path));
         }
 
-        private List<Visitor> ReadVisitorsFromFIle(string path)
-        {
-            try
-            {
-                string data = File.ReadAllText(path);
-                List<Visitor> visitors = JsonSerializer.Deserialize<List<Visitor>>(data);
-                return visitors;
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return new List<Visitor>();
-            }       
-        }
-
-        private bool AddVisitorsToFile(List<Visitor> visitorList, string path)
-        {
-            try
-            {
-                List<Visitor> visitors = ReadVisitorsFromFIle(path);
-
-                visitorList.ForEach(x => visitors.Add(x));
-
-                string result = JsonSerializer.Serialize<List<Visitor>>(visitors);
-
-                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    sw.Write(result);
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+        
     }
 }

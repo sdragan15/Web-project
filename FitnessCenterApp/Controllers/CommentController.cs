@@ -24,7 +24,7 @@ namespace FitnessCenterApp.Controllers
             //temp.ToFitnessCenter = 1;
             //temp.Id = 2;
 
-            List<Comment> comments = ReadCommentsFromFIle(path);
+            List<Comment> comments = WorkingWithFiles.ReadEntitiesFromFIle<Comment>(path);
             if (comments.Count > 0)
                 com.Id = comments[comments.Count - 1].Id + 1;
             else
@@ -40,7 +40,7 @@ namespace FitnessCenterApp.Controllers
                 }
             }
 
-            if (AddCommentsToFile(res, path))
+            if (WorkingWithFiles.AddEntitiesToFile<Comment>(res, path))
             {
                 return new HttpResponseMessage(HttpStatusCode.Created);
             }
@@ -52,7 +52,7 @@ namespace FitnessCenterApp.Controllers
         [Route("api/Comment/ForFitnessCenter/{id}")]
         public string GetAllCommentsForFitnessCenter(int id)
         {
-            List<Comment> comments = ReadCommentsFromFIle(path);
+            List<Comment> comments = WorkingWithFiles.ReadEntitiesFromFIle<Comment>(path);
             List<Comment> result = new List<Comment>();
             foreach(Comment c in comments)
             {
@@ -65,42 +65,5 @@ namespace FitnessCenterApp.Controllers
             return JsonSerializer.Serialize(result);
         }
 
-        private List<Comment> ReadCommentsFromFIle(string path)
-        {
-            try
-            {
-                string data = File.ReadAllText(path);
-                List<Comment> visitors = JsonSerializer.Deserialize<List<Comment>>(data);
-                return visitors;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return new List<Comment>();
-            }
-        }
-
-        private bool AddCommentsToFile(List<Comment> visitorList, string path)
-        {
-            try
-            {
-                List<Comment> visitors = ReadCommentsFromFIle(path);
-
-                visitorList.ForEach(x => visitors.Add(x));
-
-                string result = JsonSerializer.Serialize<List<Comment>>(visitors);
-
-                using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    sw.Write(result);
-                }
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
     }
 }

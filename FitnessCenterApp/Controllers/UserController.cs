@@ -13,13 +13,15 @@ namespace FitnessCenterApp.Controllers
     public class UserController : ApiController
     {
         private string visitorsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.VisitorsFile);
+        private string ownersPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.OwnersFile);
 
         [HttpPost]
         public HttpResponseMessage LogIn(LoginModel login)
         {
 
             List<User> users = new List<User>();
-            users.AddRange(ReadVisitorsFromFIle(visitorsPath));
+            users.AddRange(WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(visitorsPath));
+            users.AddRange(WorkingWithFiles.ReadEntitiesFromFIle<Owner>(ownersPath));
             
             foreach(User u in users)
             {
@@ -34,19 +36,5 @@ namespace FitnessCenterApp.Controllers
             
         }
 
-        private List<Visitor> ReadVisitorsFromFIle(string path)
-        {
-            try
-            {
-                string data = File.ReadAllText(path);
-                List<Visitor> visitors = JsonSerializer.Deserialize<List<Visitor>>(data);
-                return visitors;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return new List<Visitor>();
-            }
-        }
     }
 }

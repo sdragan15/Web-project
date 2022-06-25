@@ -161,6 +161,7 @@
     <Compile Include="Controllers\GroupTrainingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\VisitorController.cs" />
+    <Compile Include="Controllers\WorkingWithFiles.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
