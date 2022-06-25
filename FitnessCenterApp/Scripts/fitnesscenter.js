@@ -8,10 +8,14 @@ $(document).ready(function () {
         NoLoggedUserMode()
     }
     
+    let apiQuery = 'FitenssCenter'
+    if(localStorage.LoggedInRole == 2){     // Owner
+        apiQuery = 'FitenssCenterForOwner?username=' + localStorage.LoggedInUser.split('_')[1]
+    }
 
     $.ajax({
         type: "GET",
-        url: "../api/FitenssCenter",
+        url: "../api/" + apiQuery,
         data: "",
         dataType: "json",
         success: function (response) {

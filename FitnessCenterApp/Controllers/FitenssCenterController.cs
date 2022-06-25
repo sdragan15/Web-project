@@ -96,6 +96,24 @@ namespace FitnessCenterApp.Controllers
 
         }
 
+        [Route("api/FitenssCenterForOwner")]
+        public string GetFitnessCenterForOwner([FromUri]string username)
+        {
+            List<FitnessCenter> centers = WorkingWithFiles.ReadEntitiesFromFIle<FitnessCenter>(path);
+            List<FitnessCenter> result = new List<FitnessCenter>();
+
+            foreach(FitnessCenter center in centers)
+            {
+                if (center.FitnessOwner.Equals(username))
+                {
+                    result.Add(center);
+                }
+            }
+
+            return JsonSerializer.Serialize(result);
+       
+        }
+
         [HttpGet]
         public string GetAllFitnessCenters()
         {

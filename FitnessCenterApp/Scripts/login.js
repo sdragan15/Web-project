@@ -50,7 +50,6 @@ $('#login_form').submit(function (e) {
             }
             else{
                 let result = JSON.parse(response.responseText)
-                alert(result)
                 let token = result.token
                 let userrole = result.UserRole
                 localStorage.LoggedInRole = userrole
