@@ -1,17 +1,5 @@
-﻿
-$(document).ready(function () {
-    if(localStorage.LoggedInUser != null && localStorage.LoggedInUser != ''){
-        $('#hello_message').text('Hello ' + localStorage.LoggedInUser.split('_')[1])
-        LoggedInMode()
-    }
-    else{
-        NoLoggedUserMode()
-    }
-    
-    if(localStorage.LoggedInRole == 2){
-        $('#owner_centers').show()
-    }
-    let apiQuery = 'FitenssCenter'
+$(document).ready(function () {    
+    let apiQuery = 'FitenssCenterForOwner?username=' + localStorage.LoggedInUser.split('_')[1]
 
     $.ajax({
         type: "GET",
@@ -24,23 +12,19 @@ $(document).ready(function () {
             data = CustomSortString(data, 'Name', -1)
             
             data.forEach(element => {
-                AddFitnessToTable(element)
+                AddFitnessToTableForOwner(element)
             });
         }
     });
 });
 
-$('#owner_centers').click(function (e) { 
-    window.location.href = 'fitnesscenterOwner.html'
-    
-});
-
-function NoLoggedUserMode(){
-    $('#signout_nav').hide()
-}
-
-function LoggedInMode(){
-    $('#login_nav').hide()
+function AddFitnessToTableForOwner(fitness){
+    var result = '<tr><td>' + fitness['Name'] +
+     '</td><td>' + fitness.FitnessAddress.StreetAndNumber + 
+     '</td><td>' + fitness['Opened'] + '</td>' +
+     '<td><button class=\'details_btn\' id=\''+ fitness.Id +'\'>Details</button>' +
+     '<button class=\'edit_btn\' id=\''+ fitness.Id +'\'>Edit</button></td>'
+    $('#fitness_table').append(result)
 }
 
 $(document).on("click", ".details_btn" , function() {
@@ -133,14 +117,6 @@ $('#table_year').click(function (e) {
 
 function DeleteFitnessRows(){
     $("#fitness_table").find("tr:gt(0)").remove();
-}
-
-function AddFitnessToTable(fitness){
-    var result = '<tr><td>' + fitness['Name'] +
-     '</td><td>' + fitness.FitnessAddress.StreetAndNumber + 
-     '</td><td>' + fitness['Opened'] + '</td>' +
-     '<td><button class=\'details_btn\' id=\''+ fitness.Id +'\'>Details</button></td>'
-    $('#fitness_table').append(result)
 }
 
 

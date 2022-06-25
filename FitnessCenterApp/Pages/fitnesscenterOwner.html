@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>FitnessApp</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../Scripts/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        <a href="../Pages/index.html">Home</a>
+        <a id="register_nav" href="../Pages/register.html">Register</a>
+        <a id="signout_nav" href="../Pages/signout.html">Sing out</a>
+      </div> 
+
+    <h1>My fitness centers:</h1>
+    <br>
+    <table id="fitness_table" class="tt">
+        <tr>
+            <th id="table_name" class="asc">Name</th>
+            <th id="table_address" class="desc">Address</th>
+            <th id="table_year" class="desc">Year of opening</th>
+        </tr>
+    </table>
+
+    <h3>Add new fitness center:</h3>
+    <form>
+        <table>
+            <tr>
+                <th>City:</th>
+                <td id="city">
+                    <input type="text" name="city">
+                </td>
+            </tr>
+            <tr>
+                <th>Address:</th>
+                <td id="address">
+                    <input type="text" name="address">
+                </td>
+            </tr>
+            <tr>
+                <th>Number:</th>
+                <td id="number">
+                    <input type="text" name="number">
+                </td>
+            </tr>
+            <tr>
+                <th>Year of oppening:</th>
+                <td id="opened">
+                    <input type="number" name="opened">
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">Training prices:</th>
+            </tr>
+            <tr>
+                <th>One Training:</th>
+                <td>
+                    <input type="number" name="one_training">
+                </td>
+            </tr>
+            <tr>
+                <th>Monthly membership:</th>
+                <td>
+                    <input type="number" name="monthly">
+                </td>
+            </tr>
+            <tr>
+                <th>Yearly membership:</th>
+                <td>
+                    <input type="number" name="yearly">
+                </td>
+            </tr>
+            <tr>
+                <th>Group training:</th>
+                <td>
+                    <input type="number" name="group">
+                </td>
+            </tr>
+            <tr>
+                <th>Proffesional Training:</th>
+                <td>
+                    <input type="number" name="proffesional">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Add">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script src="../Scripts/fitnesscenterOwner.js"></script>
+    
+</body>
+</html>

@@ -10,6 +10,10 @@ $(document).ready(function () {
         NoLoggedUserMode()
     }
 
+    if(localStorage.LoggedInRole == 2){
+        $('#owner_centers').show()
+    }
+
     FitnessCenter = JSON.parse(localStorage.FitnessCenter)
     
     $('#name').text(FitnessCenter.Name)
@@ -28,6 +32,11 @@ $(document).ready(function () {
 
     GetAllGroupTrainings(FitnessCenter.Id)    
     GenerateAllCommentsForFitnessCenter(FitnessCenter.Id)
+});
+
+$('#owner_centers').click(function (e) { 
+    window.location.href = 'fitnesscenterOwner.html'
+    
 });
 
 function NoLoggedUserMode(){

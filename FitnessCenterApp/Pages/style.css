@@ -16,6 +16,10 @@ body{
   border: black 1px solid;
 }
 
+#owner_centers{
+  display: none;
+}
+
 .error
 {
  border:2px solid red;
