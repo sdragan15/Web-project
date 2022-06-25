@@ -23,9 +23,16 @@
         </tr>
     </table>
 
-    <h3>Add new fitness center:</h3>
+    <h3 id="add_header">Add new fitness center:</h3>
+    <h3 id="edit_header">Edit fitness center:</h3>
     <form>
         <table>
+            <tr>
+                <th>Name:</th>
+                <td id="name">
+                    <input type="text" name="name">
+                </td>
+            </tr>
             <tr>
                 <th>City:</th>
                 <td id="city">
@@ -85,7 +92,8 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="submit" value="Add">
+                    <input id="submit_btn" type="submit" value="Add">
+                    <button id="cancel_btn">Cancel</button>
                 </td>
             </tr>
         </table>

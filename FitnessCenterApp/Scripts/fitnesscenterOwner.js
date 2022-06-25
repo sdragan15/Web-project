@@ -28,6 +28,11 @@ function AddFitnessToTableForOwner(fitness){
 }
 
 $(document).on("click", ".edit_btn" , function() {
+    $('#edit_header').show()
+    $('#add_header').hide()
+    $('#submit_btn').attr('value', 'Update')
+    $('#cancel_btn').show()
+
     let index = $(this).attr('id')
     $.ajax({
         type: "GET",
@@ -42,7 +47,30 @@ $(document).on("click", ".edit_btn" , function() {
     });
 });
 
+$('#cancel_btn').click(function (e) { 
+    e.preventDefault()
+    $('#edit_header').hide()
+    $('#add_header').show()
+    $('#submit_btn').attr('value', 'Add')
+    $('#cancel_btn').hide()
+
+    $('input[name=name]').val('')
+    $('input[name=city]').val('')
+    $('input[name=address]').val('')
+    $('input[name=postalcode]').val('')
+    $('input[name=opened]').val('')
+    
+
+    $('input[name=one_training]').val('')
+    $('input[name=monthly]').val('')
+    $('input[name=yearly]').val('')
+    $('input[name=group]').val('')
+    $('input[name=proffesional]').val('')
+    
+});
+
 function AddToForm(data){
+    $('input[name=name]').val(data.Name)
     $('input[name=city]').val(data.FitnessAddress.City)
     $('input[name=address]').val(data.FitnessAddress.StreetAndNumber)
     $('input[name=postalcode]').val(data.FitnessAddress.PostalCode)

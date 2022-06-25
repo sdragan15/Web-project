@@ -20,6 +20,18 @@ body{
   display: none;
 }
 
+#edit_header{
+  display: none;
+}
+
+#add_header{
+  display: block;
+}
+
+#cancel_btn{
+  display: none;
+}
+
 .error
 {
  border:2px solid red;
