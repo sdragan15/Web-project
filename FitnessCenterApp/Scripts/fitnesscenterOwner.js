@@ -27,6 +27,50 @@ function AddFitnessToTableForOwner(fitness){
     $('#fitness_table').append(result)
 }
 
+$(document).on("click", ".edit_btn" , function() {
+    let index = $(this).attr('id')
+    $.ajax({
+        type: "GET",
+        url: "../api/FitenssCenter/" + index,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            data = JSON.parse(response)
+            
+            AddToForm(data)
+        }
+    });
+});
+
+function AddToForm(data){
+    $('input[name=city]').val(data.FitnessAddress.City)
+    $('input[name=address]').val(data.FitnessAddress.StreetAndNumber)
+    $('input[name=postalcode]').val(data.FitnessAddress.PostalCode)
+    $('input[name=opened]').val(data.Opened)
+    
+
+    $('input[name=one_training]').val(data.TrainingCost)
+    $('input[name=monthly]').val(data.MonthlyMembershipCost)
+    $('input[name=yearly]').val(data.YearlyembershipCost)
+    $('input[name=group]').val(data.GroupTrainingCost)
+    $('input[name=proffesional]').val(data.ProffesionalTrainingCost)
+    
+    
+    
+    // $('#address').text(data.FitnessAddress.City + ', ' + 
+    // data.FitnessAddress.StreetAndNumber + ', ' + 
+    // data.FitnessAddress.PostalCode)
+
+    // $('#opened').val($(input_id).val() + data.Opened)
+    // $('#owner').val(data.FitnessOwner)
+    // $('#opened').val(data.Opened)
+    // $('#one_training').val(data.TrainingCost)
+    // $('#monthly').val(data.MonthlyMembershipCost)
+    // $('#yearly').val(data.YearlyembershipCost)
+    // $('#group').val(data.GroupTrainingCost)
+    // $('#proffesional').val(data.ProffesionalTrainingCost)
+}
+
 $(document).on("click", ".details_btn" , function() {
     location.href='fitnesscenterDetails.html';
     fitnessId = $(this).attr('id');
