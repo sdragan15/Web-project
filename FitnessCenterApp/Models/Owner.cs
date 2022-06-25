@@ -7,7 +7,7 @@ namespace FitnessCenterApp.Models
 {
     public class Owner: User
     {
-        public int OwnerOfFitnessCenter { get; set; }       // id of fitness center
+        public List<int> OwnerOfFitnessCenter { get; set; }       // id of fitness center
 
         public Owner()
         {

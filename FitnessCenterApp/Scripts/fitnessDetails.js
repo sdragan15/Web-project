@@ -18,7 +18,7 @@ $(document).ready(function () {
     FitnessCenter.FitnessAddress.PostalCode)
 
     $('#opened').text(FitnessCenter.Opened)
-    $('#owner').text(FitnessCenter.FitnessOwner.Name + ' ' + FitnessCenter.FitnessOwner.Lastname)
+    $('#owner').text(FitnessCenter.FitnessOwner)
     $('#opened').text(FitnessCenter.Opened)
     $('#one_training').text(FitnessCenter.TrainingCost)
     $('#monthly').text(FitnessCenter.MonthlyMembershipCost)

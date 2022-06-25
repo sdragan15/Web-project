@@ -159,6 +159,7 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\FitenssCenterController.cs" />
     <Compile Include="Controllers\GroupTrainingController.cs" />
+    <Compile Include="Controllers\OwnerController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\VisitorController.cs" />
     <Compile Include="Controllers\WorkingWithFiles.cs" />

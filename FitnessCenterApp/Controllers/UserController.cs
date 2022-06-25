@@ -28,7 +28,7 @@ namespace FitnessCenterApp.Controllers
                 if (login.Username.Equals(u.Username) && login.Password.Equals(u.Password))
                 {
                     string token = "token_" + login.Username;
-                    return Request.CreateResponse(HttpStatusCode.OK, token);
+                    return Request.CreateResponse(HttpStatusCode.OK, new { token, u.UserRole });
                 }
             }
 

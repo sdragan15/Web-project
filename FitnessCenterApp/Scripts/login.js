@@ -49,8 +49,11 @@ $('#login_form').submit(function (e) {
                 alert(response.responseText)
             }
             else{
-                let token = response.responseText
-                token = token.slice(1).slice(0, -1)
+                let result = JSON.parse(response.responseText)
+                alert(result)
+                let token = result.token
+                let userrole = result.UserRole
+                localStorage.LoggedInRole = userrole
                 localStorage.LoggedInUser = token
                 console.log(response.responseText)
                 window.location.href = '/Pages/index.html'
