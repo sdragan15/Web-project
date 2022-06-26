@@ -12,5 +12,6 @@ namespace FitnessCenterApp.Models
         public static string GroupTraningsFile = "grouptranings.json";
         public static string CommentsFile = "comments.json";
         public static string OwnersFile = "owners.json";
+        public static string CoachFile = "coach.json";
     }
 }

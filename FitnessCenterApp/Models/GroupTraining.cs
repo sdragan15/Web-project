@@ -13,10 +13,11 @@ namespace FitnessCenterApp.Models
         public DateTime DateAndTime { get; set; }
         public int MaxVisitors { get; set; }
         public List<string> Visitors { get; set; }          // list of visitors id
+        public bool Deleted { get; set; }
 
         public GroupTraining()
         {
-
+            Deleted = false;
         }
     }
 }

@@ -9,10 +9,11 @@ namespace FitnessCenterApp.Models
     {
         public List<GroupTraining> TrainerForGroups { get; set; }
         public FitnessCenter WorkingInFitnessCenter { get; set; }
+        public bool Blocked { get; set; }
 
         public Coach()
         {
-
+            Blocked = false;
         }
     }
 }
