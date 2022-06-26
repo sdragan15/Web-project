@@ -220,7 +220,7 @@ $('#table_name').click(function (e) {
     data = CustomSortString(data, 'Name', type)
     DeleteFitnessRows()
     data.forEach(element => {
-        AddFitnessToTable(element)
+        AddFitnessToTableForOwner(element)
     });
 
 });
@@ -245,7 +245,7 @@ $('#table_address').click(function (e) {
     data = CustomSortAddress(data, type)
     DeleteFitnessRows()
     data.forEach(element => {
-        AddFitnessToTable(element)
+        AddFitnessToTableForOwner(element)
     });
 
 });
@@ -270,7 +270,7 @@ $('#table_year').click(function (e) {
     data = CustomSortNumber(data, 'Opened', type)
     DeleteFitnessRows()
     data.forEach(element => {
-        AddFitnessToTable(element)
+        AddFitnessToTableForOwner(element)
     });
 
 });
