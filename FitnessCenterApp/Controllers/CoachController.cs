@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Web.Http;
 
 namespace FitnessCenterApp.Controllers
@@ -38,6 +39,50 @@ namespace FitnessCenterApp.Controllers
                 return message;
             }
 
+        }
+
+        [Route("api/CoachByFitnessCenter/{id}")]
+        public string GetCoachesByFitnessCenter(int id)
+        {
+            List<Coach> result = new List<Coach>();
+            List<Coach> coaches = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path);
+            
+            foreach (Coach coach in coaches)
+            {
+               if(coach.WorkingInFitnessCenter == id)
+                {
+                    result.Add(coach);
+                }
+            }
+
+            return JsonSerializer.Serialize(result);
+
+        }
+
+        [HttpGet]
+        public string GetAllCoaches()
+        {
+            return JsonSerializer.Serialize(WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path));
+        }
+
+        [HttpPut]
+        [Route("api/AddCoachToCenter")]
+        public HttpResponseMessage AddCoachToFitnessCenter(int id, string username)
+        {
+            List<Coach> coaches = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path);
+            Coach coach = coaches.FirstOrDefault(x => x.Username.Equals(username));
+            if (coach != null)
+            {
+                if (coach.WorkingInFitnessCenter != -1)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Trainer already works in some fitness center");
+                }
+                coach.WorkingInFitnessCenter = id;
+                WorkingWithFiles.RewriteFileWithEntities<Coach>(coaches, path);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username");
         }
     }
 }

@@ -188,7 +188,7 @@ function AddToForm(data){
 }
 
 $(document).on("click", ".details_btn" , function() {
-    location.href='fitnesscenterDetails.html';
+    location.href='fitnesscenterOwnerDetails.html';
     fitnessId = $(this).attr('id');
     
     for(let i=0; i<data.length; i++){

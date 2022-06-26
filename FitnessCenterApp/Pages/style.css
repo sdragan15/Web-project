@@ -32,7 +32,19 @@ body{
   display: none;
 }
 
+#block_coach{
+
+}
+
+#unblock_coach{
+  
+}
+
 #cancel_btn{
+  display: none;
+}
+
+#details_owner_div{
   display: none;
 }
 
