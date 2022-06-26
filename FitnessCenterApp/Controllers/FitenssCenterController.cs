@@ -54,6 +54,26 @@ namespace FitnessCenterApp.Controllers
 
         }
 
+        [HttpPut]
+        public HttpResponseMessage UpdateFitnessCenter(FitnessCenter fitnessCenter)
+        {
+            int index = -1;
+            List<FitnessCenter> centers = WorkingWithFiles.ReadEntitiesFromFIle<FitnessCenter>(path);
+            index = centers.FindIndex(x => x.Id == fitnessCenter.Id);
+            if(index != -1)
+            {
+                centers[index] = fitnessCenter;
+                if (WorkingWithFiles.RewriteFileWithEntities<FitnessCenter>(centers, path))
+                {
+                    return new HttpResponseMessage(HttpStatusCode.OK);
+                }
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+
+        }
+
         [HttpDelete]
         public HttpResponseMessage DeleteFitnessCenter(int id)
         {

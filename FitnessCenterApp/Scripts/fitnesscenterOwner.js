@@ -1,4 +1,5 @@
 var FitnessOwnerUsername
+var FitnessId
 
 $(document).ready(function () {    
     FitnessOwnerUsername = localStorage.LoggedInUser.split('_')[1]
@@ -43,27 +44,55 @@ $('#add_fitness_form').submit(function (e) {
     ValidateInput(monthly, 'monthly') && ValidateInput(yearly, 'yearly') && 
     ValidateInput(group, 'group') && ValidateInput(proffesional, 'proffesional')){
 
-        let addressQuery = {City:city, StreetAndNumber:address, PostalCode:postalcode}
-        let query = {Name:name, FitnessAddress:addressQuery, Opened:opened, MonthlyMembershipCost:monthly,
-            YearlyembershipCost:yearly, TrainingCost:one_training, GroupTrainingCost:group, ProffesionalTrainingCost:proffesional,
-            FitnessOwner:FitnessOwnerUsername}
+        if($('#add_fitness_form').attr('class') == 'add'){
+            let addressQuery = {City:city, StreetAndNumber:address, PostalCode:postalcode}
+            let query = {Name:name, FitnessAddress:addressQuery, Opened:opened, MonthlyMembershipCost:monthly,
+                YearlyembershipCost:yearly, TrainingCost:one_training, GroupTrainingCost:group, ProffesionalTrainingCost:proffesional,
+                FitnessOwner:FitnessOwnerUsername}
 
-        query = JSON.stringify(query)
+            query = JSON.stringify(query)
 
-        $.ajax({
-            type: "POST",
-            url: "../api/FitenssCenter",
-            data: query,
-            dataType: "json",
-            contentType: "application/json",
-            complete: function(response){
-                if(response.status != 201){
-                    alert(response.responseText)
+            $.ajax({
+                type: "POST",
+                url: "../api/FitenssCenter",
+                data: query,
+                dataType: "json",
+                contentType: "application/json",
+                complete: function(response){
+                    if(response.status != 201){
+                        alert(response.responseText)
+                    }
                 }
-            }
-        });
-        location.reload()
-        return true
+            });
+            location.reload()
+            return true
+        }
+        else{
+            let addressQuery = {City:city, StreetAndNumber:address, PostalCode:postalcode}
+            let query = {Id:FitnessId, Name:name, FitnessAddress:addressQuery, Opened:opened, MonthlyMembershipCost:monthly,
+                YearlyembershipCost:yearly, TrainingCost:one_training, GroupTrainingCost:group, ProffesionalTrainingCost:proffesional,
+                FitnessOwner:FitnessOwnerUsername}
+
+            query = JSON.stringify(query)
+
+            $.ajax({
+                type: "PUT",
+                url: "../api/FitenssCenter",
+                data: query,
+                dataType: "json",
+                contentType: "application/json",
+                complete: function(response){
+                    if(response.status != 200){
+                        alert(response.responseText)
+                    }
+                    else{
+                        location.reload()
+                    }
+                }
+            });
+        }
+
+        
     }
     else{
         return false
@@ -96,13 +125,16 @@ function AddFitnessToTableForOwner(fitness){
 $(document).on("click", ".edit_btn" , function() {
     $('#edit_header').show()
     $('#add_header').hide()
-    $('#submit_btn').attr('value', 'Update')
+    $('#submit_btn').hide()
     $('#cancel_btn').show()
+    $('#edit_btn_submit').show()
+    $('#add_fitness_form').attr('class', 'update')
 
-    let index = $(this).attr('id')
+    FitnessId = $(this).attr('id')
+    alert(FitnessId)
     $.ajax({
         type: "GET",
-        url: "../api/FitenssCenter/" + index,
+        url: "../api/FitenssCenter/" + FitnessId,
         data: "",
         dataType: "json",
         success: function (response) {
@@ -113,12 +145,15 @@ $(document).on("click", ".edit_btn" , function() {
     });
 });
 
+
 $('#cancel_btn').click(function (e) { 
     e.preventDefault()
     $('#edit_header').hide()
     $('#add_header').show()
-    $('#submit_btn').attr('value', 'Add')
+    $('#submit_btn').show()
     $('#cancel_btn').hide()
+    $('#edit_btn_submit').hide()
+    $('#add_fitness_form').attr('class', 'add')
 
     $('input[name=name]').val('')
     $('input[name=city]').val('')
@@ -136,6 +171,7 @@ $('#cancel_btn').click(function (e) {
 });
 
 function AddToForm(data){
+    FitnessId = data.Id
     $('input[name=name]').val(data.Name)
     $('input[name=city]').val(data.FitnessAddress.City)
     $('input[name=address]').val(data.FitnessAddress.StreetAndNumber)
@@ -149,20 +185,6 @@ function AddToForm(data){
     $('input[name=group]').val(data.GroupTrainingCost)
     $('input[name=proffesional]').val(data.ProffesionalTrainingCost)
     
-    
-    
-    // $('#address').text(data.FitnessAddress.City + ', ' + 
-    // data.FitnessAddress.StreetAndNumber + ', ' + 
-    // data.FitnessAddress.PostalCode)
-
-    // $('#opened').val($(input_id).val() + data.Opened)
-    // $('#owner').val(data.FitnessOwner)
-    // $('#opened').val(data.Opened)
-    // $('#one_training').val(data.TrainingCost)
-    // $('#monthly').val(data.MonthlyMembershipCost)
-    // $('#yearly').val(data.YearlyembershipCost)
-    // $('#group').val(data.GroupTrainingCost)
-    // $('#proffesional').val(data.ProffesionalTrainingCost)
 }
 
 $(document).on("click", ".details_btn" , function() {

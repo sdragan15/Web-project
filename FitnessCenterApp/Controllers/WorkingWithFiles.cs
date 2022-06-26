@@ -33,8 +33,20 @@ namespace FitnessCenterApp.Controllers
 
                 entityList.ForEach(x => entities.Add(x));
 
-                string result = JsonSerializer.Serialize<List<T>>(entities);
+                return RewriteFileWithEntities<T>(entities, path);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
+        public static bool RewriteFileWithEntities<T>(List<T> entities, string path)
+        {
+            try
+            {
+                string result = JsonSerializer.Serialize<List<T>>(entities);
+                File.WriteAllText(path, string.Empty);
                 using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
@@ -42,11 +54,14 @@ namespace FitnessCenterApp.Controllers
                 }
                 return true;
             }
-            catch (Exception)
+            catch(Exception e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
+            
         }
+
 
     }
 }

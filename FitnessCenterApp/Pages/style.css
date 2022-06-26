@@ -28,6 +28,10 @@ body{
   display: block;
 }
 
+#edit_btn_submit{
+  display: none;
+}
+
 #cancel_btn{
   display: none;
 }
