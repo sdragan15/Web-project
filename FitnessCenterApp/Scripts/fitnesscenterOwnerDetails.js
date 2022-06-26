@@ -84,12 +84,37 @@ function AddTrainersToTable(id){
     
 }
 
+$(document).on('click','.block_coach', function () {
+    let username = $(this).parent().parent().children(':first').text()
+
+
+    $.ajax({
+        type: "PUT",
+        url: "../api/BlockCoach?block=1&username=" + username,
+        data: "",
+        dataType: "json",
+        contentType: "application/json",
+        complete: function(response){
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+            else{
+                location.reload()
+            }
+        }
+    });
+});
+
 function GenerateTrainer(data){
     let value = '<tr><td>' + data.Username + '</td><td>' + data.Name + '</td><td>' + data.Lastname + '</td>' +
-                '<td><button id=\'block_coach\'>Block</button><button id=\'unblock_coach\'>Block</button>' + 
-                '<button id=\'delete_coach\'>Delete</button></td></tr>'
+                '<td><button class=\'block_coach\' id=\'block_coach_' + data.Username +'\'>Block</button><button class=\'unblock_coach\' id=\'unblock_coach_' + data.Username +'\'>Unblock</button>' + 
+                '<button class=\'datete_coach\' id=\'delete_coach_' + data.Username +'\'>Delete</button></td></tr>'
 
     $('#trainers_table').append(value)
+    if(data.Blocked){
+        $('#unblock_coach_' + data.Username).show()
+        $('#block_coach_' + data.Username).hide()
+    }
 }
 
 function NoLoggedUserMode(){

@@ -84,5 +84,30 @@ namespace FitnessCenterApp.Controllers
 
             return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid username");
         }
+
+        [HttpPut]
+        [Route("api/BlockCoach")]
+        public HttpResponseMessage BlockOrUnblockCoach(int block, string username)
+        {
+            int index = -1;
+            List<Coach> coaches = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path);
+            index = coaches.FindIndex(x => x.Username.Equals(username));
+            if (index != -1)
+            {
+                if (block == 1)
+                {
+                    coaches[index].Blocked = true;
+                }
+                else
+                {
+                    coaches[index].Blocked = false;
+                }
+
+                WorkingWithFiles.RewriteFileWithEntities<Coach>(coaches, path);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Bad request");
+        }
     }
 }

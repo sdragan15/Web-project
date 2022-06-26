@@ -32,12 +32,12 @@ body{
   display: none;
 }
 
-#block_coach{
+.block_coach{
 
 }
 
-#unblock_coach{
-  
+.unblock_coach{
+  display: none;
 }
 
 #cancel_btn{
