@@ -114,13 +114,33 @@ function ValidateInput(value, name){
 }
 
 function AddFitnessToTableForOwner(fitness){
-    var result = '<tr><td>' + fitness['Name'] +
-     '</td><td>' + fitness.FitnessAddress.StreetAndNumber + 
-     '</td><td>' + fitness['Opened'] + '</td>' +
-     '<td><button class=\'details_btn\' id=\''+ fitness.Id +'\'>Details</button>' +
-     '<button class=\'edit_btn\' id=\''+ fitness.Id +'\'>Edit</button></td>'
-    $('#fitness_table').append(result)
+    if(!fitness.Deleted){
+        var result = '<tr><td>' + fitness['Name'] +
+        '</td><td>' + fitness.FitnessAddress.StreetAndNumber + 
+        '</td><td>' + fitness['Opened'] + '</td>' +
+        '<td><button class=\'details_btn\' id=\''+ fitness.Id +'\'>Details</button>' +
+        '<button class=\'edit_btn\' id=\''+ fitness.Id +'\'>Edit</button>' + 
+        '<button class=\'delete_fitness_btn\' id=\''+ fitness.Id +'\'>Delete</button></td>'
+       $('#fitness_table').append(result)
+    }
+    
 }
+
+$(document).on('click', '.delete_fitness_btn', function () {
+    FitnessId = $(this).attr('id')
+    $.ajax({
+        type: "DELETE",
+        url: "../api/FitenssCenter/" + FitnessId,
+        data: "",
+        dataType: "json",
+        complete: function (response) {
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+            location.reload()
+        }
+    });
+});
 
 $(document).on("click", ".edit_btn" , function() {
     $('#edit_header').show()

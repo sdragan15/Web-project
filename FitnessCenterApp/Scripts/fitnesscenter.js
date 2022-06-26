@@ -136,11 +136,14 @@ function DeleteFitnessRows(){
 }
 
 function AddFitnessToTable(fitness){
-    var result = '<tr><td>' + fitness['Name'] +
-     '</td><td>' + fitness.FitnessAddress.StreetAndNumber + 
-     '</td><td>' + fitness['Opened'] + '</td>' +
-     '<td><button class=\'details_btn\' id=\''+ fitness.Id +'\'>Details</button></td>'
-    $('#fitness_table').append(result)
+    if(!fitness.Deleted){
+        var result = '<tr><td>' + fitness['Name'] +
+        '</td><td>' + fitness.FitnessAddress.StreetAndNumber + 
+        '</td><td>' + fitness['Opened'] + '</td>' +
+        '<td><button class=\'details_btn\' id=\''+ fitness.Id +'\'>Details</button></td>'
+       $('#fitness_table').append(result)
+    }
+    
 }
 
 

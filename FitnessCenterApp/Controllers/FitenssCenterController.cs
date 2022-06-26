@@ -77,30 +77,19 @@ namespace FitnessCenterApp.Controllers
         [HttpDelete]
         public HttpResponseMessage DeleteFitnessCenter(int id)
         {
-            FitnessCenter temp = null;
+            int index = -1;
             List<FitnessCenter> centers = WorkingWithFiles.ReadEntitiesFromFIle<FitnessCenter>(path);
-            foreach(FitnessCenter c in centers)
-            {
-                if(c.Id == id)
-                {
-                    temp = c;
-                }
-            }
-            HttpResponseMessage message;
+            index = centers.FindIndex(x => x.Id == id);
 
-            if(temp != null)
+            if (index != -1)
             {
-                centers.Remove(temp);
-                message = new HttpResponseMessage(HttpStatusCode.OK);
-            }
-            else
-            {
-                message = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                centers[index].Deleted = true;
+
+                WorkingWithFiles.RewriteFileWithEntities<FitnessCenter>(centers, path);
+                return  Request.CreateResponse(HttpStatusCode.OK);
             }
 
-            WorkingWithFiles.AddEntitiesToFile<FitnessCenter>(centers, path);
-
-            return message;
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Fitness NOT deleted");
 
         }
 
