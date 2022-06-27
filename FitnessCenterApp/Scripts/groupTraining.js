@@ -59,7 +59,6 @@ $('#add_training_form').submit(function (e) {
             if(date - allowedDate < 0){
                 $('input[name=dateandtime]').addClass('error')
                 $('input[name=dateandtime]').focus()
-                alert('false')
                 return false
             }
 

@@ -11,7 +11,7 @@ namespace FitnessCenterApp.Models
 
         public Visitor()
         {
-
+            RegisteredTrainings = new List<int>();
         }
 
         

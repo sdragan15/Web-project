@@ -17,29 +17,15 @@ namespace FitnessCenterApp.Controllers
         [HttpPost]
         public HttpResponseMessage RegisterVisitor(Visitor user)
         {
-            //Visitor temp = new Visitor();
-            //temp.Name = "Milica";
-            //temp.Lastname = "Milic";
-            //temp.Username = "micka";
-            //temp.Password = "milica123";
-            //temp.RegisteredTrainings = new List<int>() { 0 };
-            //temp.UserGender = Gender.FEMALE;
-            //temp.UserRole = Role.VISITOR;
-            //temp.Email = "milica@gmail.com";
-            //temp.Birth = new DateTime(2000, 2, 1);
-
             List<Visitor> visitors = new List<Visitor>() { user };
 
             List<Visitor> registeredVisitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
-            foreach(Visitor visitor in registeredVisitors)
+            if (Registration.CheckIfUsernameExist(user.Username))
             {
-                if(visitor.Username == user.Username)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
-                }
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
             }
 
-            if(WorkingWithFiles.AddEntitiesToFile<Visitor>(visitors, path))
+            if (WorkingWithFiles.AddEntitiesToFile<Visitor>(visitors, path))
             {
                 HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.Created);
                 return message;

@@ -11,7 +11,7 @@ namespace FitnessCenterApp.Models
 
         public Owner()
         {
-
+            OwnerOfFitnessCenter = new List<int>();
         }
     }
 }

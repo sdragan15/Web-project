@@ -15,6 +15,7 @@ namespace FitnessCenterApp.Models
         {
             Blocked = false;
             WorkingInFitnessCenter = -1;
+            TrainerForGroups = new List<int>();
         }
     }
 }

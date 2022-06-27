@@ -20,13 +20,12 @@ namespace FitnessCenterApp.Controllers
             List<Coach> visitors = new List<Coach>() { user };
 
             List<Coach> registeredVisitors = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path);
-            foreach (Coach visitor in registeredVisitors)
+
+            if (Registration.CheckIfUsernameExist(user.Username))
             {
-                if (visitor.Username == user.Username)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
-                }
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Username already exists");
             }
+
 
             if (WorkingWithFiles.AddEntitiesToFile<Coach>(visitors, path))
             {
