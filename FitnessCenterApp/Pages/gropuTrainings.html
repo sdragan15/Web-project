@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>FitnessApp</title>
+    <link rel="stylesheet" href="groupTraining.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="../Scripts/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        <a href="../Pages/index.html">Home</a>
+        <a id="register_nav" href="../Pages/register.html">Register</a>
+        <a id="signout_nav" href="../Pages/signout.html">Sing out</a>
+      </div> 
+
+    <h1>My group trainings:</h1>
+    <br>
+    <table id="training_table">
+        <tr>
+            <th id="table_name" class="asc">Name</th>
+            <th id="table_type" class="desc">Type</th>
+            <th id="table_date" class="desc">Date</th>
+            <th id="table_time" class="desc">Time</th>
+        </tr>
+    </table>
+
+    <h3 id="add_header">Add new group training:</h3>
+    <h3 id="edit_header">Edit group training:</h3>
+    <form id="add_training_form" class="add">
+        <table>
+            <tr>
+                <th>Name:</th>
+                <td id="name">
+                    <input type="text" name="name">
+                </td>
+            </tr>
+            <tr>
+                <th>Training type:</th>
+                <td id="trainingtype">
+                   <select name="trainingtype">
+                        <option>YOGA</option>
+                        <option>LES MILLS TONE</option>
+                        <option>BODY PUMP</option>
+                   </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Place:</th>
+                <td id="place">
+                   <select name="place">
+                        
+                   </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Duration:</th>
+                <td id="duration">
+                    <input type="number" name="duration">
+                </td>
+            </tr>
+            <tr>
+                <th>Date and time:</th>
+                <td id="dateandtime">
+                    <input type="datetime-local" name="dateandtime">
+                </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                <th>Max. visitors:</th>
+                <td>
+                    <input type="number" name="maxvisitors">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input id="submit_btn" type="submit" value="Add">
+                    <button id="edit_btn_submit">Update</button>
+                    <button id="cancel_btn">Cancel</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script src="../Scripts/groupTraining.js"></script>
+    
+</body>
+</html>
