@@ -126,10 +126,31 @@ $(document).on('click','.unblock_coach', function () {
     });
 });
 
+$(document).on('click', '.dalete_coach', function () {
+    username = $(this).attr('id')
+    username = username.split('_')[2]
+    
+    $.ajax({
+        type: "PUT",
+        url: "../api/QuitWorker?username=" + username,
+        data: "",
+        dataType: "json",
+        contentType: "application/json",
+        complete: function(response){
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+            else{
+                location.reload()
+            }
+        }
+    });
+});
+
 function GenerateTrainer(data){
     let value = '<tr><td>' + data.Username + '</td><td>' + data.Name + '</td><td>' + data.Lastname + '</td>' +
                 '<td><button class=\'block_coach\' id=\'block_coach_' + data.Username +'\'>Block</button><button class=\'unblock_coach\' id=\'unblock_coach_' + data.Username +'\'>Unblock</button>' + 
-                '<button class=\'datete_coach\' id=\'delete_coach_' + data.Username +'\'>Delete</button></td></tr>'
+                '<button class=\'dalete_coach\' id=\'delete_coach_' + data.Username +'\'>Delete</button></td></tr>'
 
     $('#trainers_table').append(value)
     if(data.Blocked){

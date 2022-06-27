@@ -15,7 +15,7 @@ namespace FitnessCenterApp.Controllers
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.CoachFile);
 
         [HttpPost]
-        public HttpResponseMessage RegisterVisitor(Coach user)
+        public HttpResponseMessage RegisterCoach(Coach user)
         {
             List<Coach> visitors = new List<Coach>() { user };
 
@@ -78,6 +78,7 @@ namespace FitnessCenterApp.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Trainer already works in some fitness center");
                 }
                 coach.WorkingInFitnessCenter = id;
+                coach.Blocked = false;
                 WorkingWithFiles.RewriteFileWithEntities<Coach>(coaches, path);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
@@ -102,6 +103,24 @@ namespace FitnessCenterApp.Controllers
                 {
                     coaches[index].Blocked = false;
                 }
+
+                WorkingWithFiles.RewriteFileWithEntities<Coach>(coaches, path);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Bad request");
+        }
+
+        [HttpPut]
+        [Route("api/QuitWorker")]
+        public HttpResponseMessage QuitTheWorker(string username)
+        {
+            int index = -1;
+            List<Coach> coaches = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path);
+            index = coaches.FindIndex(x => x.Username.Equals(username));
+            if (index != -1)
+            {
+                coaches[index].WorkingInFitnessCenter = -1;
 
                 WorkingWithFiles.RewriteFileWithEntities<Coach>(coaches, path);
                 return Request.CreateResponse(HttpStatusCode.OK);
