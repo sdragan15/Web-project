@@ -90,7 +90,7 @@ $('#table_type').click(function (e) {
 
 });
 
-$('#table_year').click(function (e) {
+$('#table_date').click(function (e) {
     var type = 0
     if($(this).hasClass('asc')){
         $(this).removeClass('asc');
@@ -107,7 +107,32 @@ $('#table_year').click(function (e) {
         type = -1
     }
 
-    data = CustomSortNumber(data, 'Opened', type)
+    data = CustomSortTrainingDate(data, type)
+    DeleteTrainingRows()
+    data.forEach(element => {
+        AddTrainingToTableForCoach(element)
+    });
+
+});
+
+$('#table_time').click(function (e) {
+    var type = 0
+    if($(this).hasClass('asc')){
+        $(this).removeClass('asc');
+        $(this).addClass('desc');
+        type = 1
+    }
+    else if($(this).hasClass('desc')){
+        $(this).removeClass('desc');
+        $(this).addClass('asc');
+        type = -1
+    }
+    else{
+        $(this).addClass('asc'); 
+        type = -1
+    }
+
+    data = CustomSortTrainingTime(data, type)
     DeleteTrainingRows()
     data.forEach(element => {
         AddTrainingToTableForCoach(element)

@@ -60,3 +60,31 @@ function CustomSortAddress(data, type){
     }
     return data
 }
+
+function CustomSortTrainingDate(data, type){
+    data.sort(function(a,b){
+        dateA = a.DateAndTime.split('T')[0]
+        dateB = b.DateAndTime.split('T')[0]
+        if(type == -1)
+            return new Date(dateB) - new Date(dateA);
+        else{
+            return new Date(dateA) - new Date(dateB);
+        }
+      });
+
+    return data
+}
+
+function CustomSortTrainingTime(data, type){
+      data.sort(function (a, b) {
+        dateA = a.DateAndTime.split('T')[1]
+        dateB = b.DateAndTime.split('T')[1]
+        if(type == -1)
+            return dateB.localeCompare(dateA);
+        else{
+            return dateA.localeCompare(dateB);
+        }
+    });
+
+    return data
+}
