@@ -65,7 +65,7 @@ function CustomSortTrainingDate(data, type){
     data.sort(function(a,b){
         dateA = a.DateAndTime.split('T')[0]
         dateB = b.DateAndTime.split('T')[0]
-        if(type == -1)
+        if(type == 1)
             return new Date(dateB) - new Date(dateA);
         else{
             return new Date(dateA) - new Date(dateB);

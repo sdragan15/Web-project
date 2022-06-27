@@ -65,6 +65,7 @@ namespace FitnessCenterApp.Controllers
             return JsonSerializer.Serialize(WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path));
         }
 
+
         [HttpPut]
         [Route("api/AddCoachToCenter")]
         public HttpResponseMessage AddCoachToFitnessCenter(int id, string username)

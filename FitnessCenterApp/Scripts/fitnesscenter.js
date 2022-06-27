@@ -1,4 +1,5 @@
-﻿
+﻿var data
+
 $(document).ready(function () {
     if(localStorage.LoggedInUser != null && localStorage.LoggedInUser != ''){
         $('#hello_message').text('Hello ' + localStorage.LoggedInUser.split('_')[1])

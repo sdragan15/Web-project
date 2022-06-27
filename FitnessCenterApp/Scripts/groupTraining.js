@@ -1,4 +1,5 @@
 var CoachUsername
+var TrainingData
 
 $(document).ready(function () {    
     CoachUsername = localStorage.LoggedInUser.split('_')[1]
@@ -10,16 +11,108 @@ $(document).ready(function () {
         data: "",
         dataType: "json",
         success: function (response) {
-            data = JSON.parse(response)
+            TrainingData = JSON.parse(response)
             
-            data = CustomSortString(data, 'Name', -1)
+            TrainingData = CustomSortTrainingDate(TrainingData, -1)
             
-            data.forEach(element => {
+            TrainingData.forEach(element => {
                 AddTrainingToTableForCoach(element)
             });
         }
     });
+
+    
+    $.ajax({
+        type: "GET",
+        url: "../api/FitenssCenter",
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            data = JSON.parse(response)
+            data = CustomSortString(data, 'Name', -1)
+            
+            data.forEach(element => {
+                AddFitnessNameToSelect(element)
+            });
+        }
+    });
+
+
 });
+
+$('#add_training_form').submit(function (e) {     
+    let name = $('input[name=name]').val()
+    let duration = $('input[name=duration]').val()
+    let dateandtime = $('input[name=dateandtime]').val()
+    let maxvisitors = $('input[name=maxvisitors]').val()
+    let trainingtype = $('#trainingtype').find(":selected").text();
+    let place = $('select[name=place]').find('option:selected').attr('id').split('_')[1];
+    
+    if(ValidateInput(name, 'name') && ValidateInput(duration, 'duration') &&
+        ValidateInput(dateandtime, 'dateandtime') && ValidateInput(maxvisitors, 'maxvisitors')){
+            let date = dateandtime.split('T')[0]
+            date = new Date(date)
+            const today = new Date()
+            let allowedDate = new Date(today)
+            allowedDate.setDate(allowedDate.getDate() + 3)
+            
+            if(date - allowedDate < 0){
+                $('input[name=dateandtime]').addClass('error')
+                $('input[name=dateandtime]').focus()
+                alert('false')
+                return false
+            }
+
+
+            query = {Name:name, TrainingType:trainingtype, Place:place,
+                    Duration:duration, DateAndTime:dateandtime, MaxVisitors:maxvisitors}
+           
+            query = JSON.stringify(query)
+
+            $.ajax({
+                type: "POST",
+                url: "../api/GroupTraining?username=" + CoachUsername,
+                data: query,
+                dataType: "json",
+                contentType: "application/json",
+                complete: function(response){
+                    if(response.status != 201){
+                        alert(response.responseText)
+                    }
+                }
+            });
+            location.reload()
+            return true
+    }
+    else{
+        return false;
+    }
+
+
+});
+
+function AddFitnessNameToSelect(element){
+    if(!element.Deleted){
+        let value = '<option id=\'option_' + element.Id + '\'>' + element.Name + '</option>'
+        
+        $('#select_place').append(value)
+        
+    }
+    
+    
+}
+
+function ValidateInput(value, name){
+    if(value == ''){
+        $('input[name=' + name + ']').addClass('error')
+        $('input[name=' + name + ']').focus()
+        return false
+    }
+    else{
+        $('input[name=' + name + ']').removeClass('error')
+        return true
+    }
+}
 
 function AddTrainingToTableForCoach(data){
     let date = data.DateAndTime.split('T')[0]
@@ -55,9 +148,8 @@ $('#table_name').click(function (e) {
         type = -1
     }
 
-    console.log(data)
     
-    data = CustomSortString(data, 'Name', type)
+    data = CustomSortString(TrainingData, 'Name', type)
     DeleteTrainingRows()
     data.forEach(element => {
         AddTrainingToTableForCoach(element)
@@ -82,7 +174,7 @@ $('#table_type').click(function (e) {
         type = -1
     }
 
-    data = CustomSortString(data, 'TrainingType', type)
+    data = CustomSortString(TrainingData, 'TrainingType', type)
     DeleteTrainingRows()
     data.forEach(element => {
         AddTrainingToTableForCoach(element)
@@ -107,7 +199,7 @@ $('#table_date').click(function (e) {
         type = -1
     }
 
-    data = CustomSortTrainingDate(data, type)
+    data = CustomSortTrainingDate(TrainingData, type)
     DeleteTrainingRows()
     data.forEach(element => {
         AddTrainingToTableForCoach(element)
@@ -132,7 +224,7 @@ $('#table_time').click(function (e) {
         type = -1
     }
 
-    data = CustomSortTrainingTime(data, type)
+    data = CustomSortTrainingTime(TrainingData, type)
     DeleteTrainingRows()
     data.forEach(element => {
         AddTrainingToTableForCoach(element)

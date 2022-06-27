@@ -16,18 +16,8 @@ namespace FitnessCenterApp.Controllers
         private string coachPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.CoachFile);
 
         [HttpPost]
-        public HttpResponseMessage AddGroupTraining(GroupTraining training)
-        {
-
-            //GroupTraining temp = new GroupTraining();
-            //temp.DateAndTime = new DateTime();
-            //temp.Duration = 60;
-            //temp.MaxVisitors = 100;
-            //temp.Name = "training 2";
-            //temp.Place = 1;
-            //temp.TrainingType = TypeOfTraining.BODY_PUMP;
-            
-
+        public HttpResponseMessage AddGroupTraining([FromBody]GroupTraining training, string username)
+        {      
             List<GroupTraining> result = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
             if (result.Count > 0)
                 training.Id = result[result.Count - 1].Id + 1;
@@ -46,6 +36,8 @@ namespace FitnessCenterApp.Controllers
 
             if (WorkingWithFiles.AddEntitiesToFile<GroupTraining>(trainings, path))
             {
+                AddTrainingToCoach(training.Id, username);
+
                 return new HttpResponseMessage(HttpStatusCode.Created);
             }
 
@@ -142,7 +134,21 @@ namespace FitnessCenterApp.Controllers
             return JsonSerializer.Serialize(WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path));
         }
 
-        
+
+        private bool AddTrainingToCoach(int id, string username)
+        {
+            List<Coach> coaches = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(coachPath);
+            Coach coach = coaches.FirstOrDefault(x => x.Username.Equals(username));
+            if (coach != null)
+            {
+                coach.TrainerForGroups.Add(id);
+                WorkingWithFiles.RewriteFileWithEntities<Coach>(coaches, coachPath);
+                return true;
+            }
+
+            return false;
+        }
+
 
     }
 }
