@@ -28,6 +28,10 @@ body{
   display: block;
 }
 
+#coach_trainings{
+  display: none;
+}
+
 #edit_btn_submit{
   display: none;
 }

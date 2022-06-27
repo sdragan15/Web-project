@@ -13,6 +13,7 @@ namespace FitnessCenterApp.Controllers
     public class GroupTrainingController : ApiController
     {
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
+        private string coachPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.CoachFile);
 
         [HttpPost]
         public HttpResponseMessage AddGroupTraining(GroupTraining training)
@@ -96,6 +97,31 @@ namespace FitnessCenterApp.Controllers
             }
 
             return JsonSerializer.Serialize(result);
+        }
+
+        [Route("api/GroupTrainingForCoach")]
+        public string GetCoachesByFitnessCenter(string username)
+        {
+            List<GroupTraining> result = new List<GroupTraining>();
+            List<Coach> coaches = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(coachPath);
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
+
+            Coach coach = coaches.FirstOrDefault(x => x.Username.Equals(username));
+            if(coach == null || coach.TrainerForGroups == null || coach.TrainerForGroups.Count <= 0)
+            {
+                return JsonSerializer.Serialize(result);
+            }
+
+           foreach(GroupTraining training in trainings)
+            {
+                if(coach.TrainerForGroups.Contains(training.Id))
+                {
+                    result.Add(training);
+                }
+            }
+
+            return JsonSerializer.Serialize(result);
+
         }
 
         [HttpGet]

@@ -11,6 +11,9 @@ $(document).ready(function () {
     if(localStorage.LoggedInRole == 2){
         $('#owner_centers').show()
     }
+    else if(localStorage.LoggedInRole == 1){
+        $('#coach_trainings').show()
+    }
     let apiQuery = 'FitenssCenter'
 
     $.ajax({
@@ -32,6 +35,11 @@ $(document).ready(function () {
 
 $('#owner_centers').click(function (e) { 
     window.location.href = 'fitnesscenterOwner.html'
+    
+});
+
+$('#coach_trainings').click(function (e) { 
+    window.location.href = 'groupTrainings.html'
     
 });
 
