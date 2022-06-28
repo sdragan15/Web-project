@@ -14,6 +14,7 @@ namespace FitnessCenterApp.Controllers
     {
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
         private string coachPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.CoachFile);
+        private string fitnessPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.FitnessCenterFile);
 
         [HttpPost]
         public HttpResponseMessage AddGroupTraining([FromBody]GroupTraining training, string username)
@@ -73,6 +74,29 @@ namespace FitnessCenterApp.Controllers
 
             return message;
 
+        }
+
+        [HttpPut]
+        public HttpResponseMessage UpdateGroupTraining(GroupTraining training)
+        {
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
+            GroupTraining editedTraining = trainings.FirstOrDefault(x => x.Id == training.Id);
+
+            if(editedTraining != null)
+            {
+                editedTraining.Name = training.Name;
+                editedTraining.MaxVisitors = training.MaxVisitors;
+                editedTraining.TrainingType = training.TrainingType;
+                editedTraining.Duration = training.Duration;
+                editedTraining.DateAndTime = training.DateAndTime;
+                editedTraining.Place = training.Place;
+
+                WorkingWithFiles.RewriteFileWithEntities<GroupTraining>(trainings, path);
+                return Request.CreateResponse(HttpStatusCode.OK);
+
+            }
+
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Training dont exist in database");
         }
 
         [Route("api/GroupTraining/AllGroups/{id}")]

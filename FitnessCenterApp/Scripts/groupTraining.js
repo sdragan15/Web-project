@@ -1,6 +1,7 @@
 var CoachUsername
 var TrainingData
 var trainingDetails
+var editTrainingId
 
 $(document).ready(function () {    
     CoachUsername = localStorage.LoggedInUser.split('_')[1]
@@ -134,26 +135,51 @@ $('#add_training_form').submit(function (e) {
                 return false
             }
 
-
-            query = {Name:name, TrainingType:trainingtype, Place:place,
+            if($('#add_training_form').hasClass('add')){
+                query = {Name:name, TrainingType:trainingtype, Place:place,
                     Duration:duration, DateAndTime:dateandtime, MaxVisitors:maxvisitors}
            
-            query = JSON.stringify(query)
+                query = JSON.stringify(query)
 
-            $.ajax({
-                type: "POST",
-                url: "../api/GroupTraining?username=" + CoachUsername,
-                data: query,
-                dataType: "json",
-                contentType: "application/json",
-                complete: function(response){
-                    if(response.status != 201){
-                        alert(response.responseText)
+                $.ajax({
+                    type: "POST",
+                    url: "../api/GroupTraining?username=" + CoachUsername,
+                    data: query,
+                    dataType: "json",
+                    contentType: "application/json",
+                    complete: function(response){
+                        if(response.status != 201){
+                            alert(response.responseText)
+                        }
                     }
-                }
-            });
-            location.reload()
-            return true
+                });
+                location.reload()
+                return true
+            }
+            else{
+                query = {Id:editTrainingId, Name:name, TrainingType:trainingtype, Place:place,
+                    Duration:duration, DateAndTime:dateandtime, MaxVisitors:maxvisitors}
+                
+                console.log(query)
+                alert('hello')
+                query = JSON.stringify(query)
+
+                $.ajax({
+                    type: "PUT",
+                    url: "../api/GroupTraining",
+                    data: query,
+                    dataType: "json",
+                    contentType: "application/json",
+                    complete: function(response){
+                        if(response.status != 200){
+                            alert(response.responseText)
+                        }
+                        else{
+                            location.reload()
+                        }
+                    }
+                });
+            }
     }
     else{
         return false;
@@ -161,6 +187,7 @@ $('#add_training_form').submit(function (e) {
 
 
 });
+
 
 $(document).on('click', '.details_btn' , function () {
     let trainintId = $(this).attr('id').split('_')[1]
@@ -222,6 +249,59 @@ function AddTrainingToTableForCoach(data){
     }
     
 }
+
+$(document).on('click','.edit_btn', function () {
+    let id = $(this).attr('id').split('_')[1]
+    $.ajax({
+        type: "GET",
+        url: "../api/GroupTraining/" + id,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            trainingDetails = JSON.parse(response)
+            editTrainingId = trainingDetails.Id
+            $('input[name=name]').val(trainingDetails.Name)
+            $('input[name=duration]').val(trainingDetails.Duration)
+            $('input[name=dateandtime]').val(trainingDetails.DateAndTime)
+            $('input[name=maxvisitors]').val(trainingDetails.MaxVisitors)
+            $('#trainingtype').val(trainingDetails.TrainingType).change()
+            
+            let placeValue = $('#option_' + trainingDetails.Place).val()
+            $('select[name=place]').val(placeValue)
+
+            EditMode()
+
+        }
+    });
+
+});
+
+
+
+function EditMode(){
+    $('#edit_btn_submit').show()
+    $('#cancel_btn').show()
+    $('#submit_btn').hide()
+    $('#add_training_form').removeClass('add')
+    $('#add_training_form').addClass('edit')
+}
+
+function AddMode(){
+    $('#edit_btn_submit').hide()
+    $('#cancel_btn').hide()
+    $('#submit_btn').show()
+    $('#add_training_form').removeClass('edit')
+    $('#add_training_form').addClass('add')
+}
+
+$('#cancel_btn').click(function (e) { 
+    e.preventDefault();
+    $('input[type=text]').val('')
+    $('input[type=number]').val('')
+    $('input[type=datetime-local]').val('')
+    AddMode()
+
+});
 
 $('#table_name').click(function (e) {
     var type = 0
