@@ -82,7 +82,6 @@ function GenerateGroupTraining(element){
     GetNumberOfVisitorsForTraining(element.Id)
     query = '<tr><td>' + element.Name + '</td>' +
                 '<td>' + element.TrainingType +'</td>' +
-                '<td>' + element.Place + '</td>' +
                 '<td>' + element.Duration + '</td>' +
                 '<td>' + element.DateAndTime.split('T')[0] + '</td>' +
                 '<td>' + element.DateAndTime.split('T')[1] + '</td>' +
