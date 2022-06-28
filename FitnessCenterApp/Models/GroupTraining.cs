@@ -18,6 +18,7 @@ namespace FitnessCenterApp.Models
         public GroupTraining()
         {
             Deleted = false;
+            Visitors = new List<string>();
         }
     }
 }

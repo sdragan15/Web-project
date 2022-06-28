@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="groupTraining.css">
     <script src="../Scripts/jquery-3.6.0.js"></script>
 </head>
 <body>
@@ -11,103 +12,79 @@
       </div> 
 
     <br>
-    <button id="owner_centers">My gro</button>
+    <button id="coach_trainings_details">Show my group trainings</button>
     
-    <h1 id="name">Name</h1>
-
-    <div id="details_owner_div">
-        <table id="trainers_table">
-            <tr>
-                <th colspan="4">Trainers:</th>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Last name</th>
-            </tr>
-        </table>
-        <form id="trainer_add_form">
-            <input id="trainer_username" type="text" name="username">
-            <input type="submit" value="Add Trainer">
-        </form>
-        <br>
-    </div>
+    <h1 id="details_name">helloooo brooo</h1>
 
     <table>
+<!-- 
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string TrainingType { get; set; }
+        public int Place { get; set; }
+        public int Duration { get; set; }
+        public DateTime DateAndTime { get; set; }
+        public int MaxVisitors { get; set; }
+        public List<string> Visitors { get; set; }          // list of visitors id
+        public bool Deleted { get; set; } -->
+
         <tr>
-            <th>Address:</th>
-            <td id="address">
-                City, StreetAndNumber, PostalCode
+            <th>Type of training:</th>
+            <td id="details_type">
+                YOGA
             </td>
         </tr>
         <tr>
-            <th>Fitness center was opened:</th>
-            <td id="opened">
-                1999
+            <th>Place:</th>
+            <td id="details_place">
+                Best gym
             </td>
         </tr>
         <tr>
-            <th>Owner:</th>
-            <td id="owner">
-                Milenko Milenkovic
+            <th>Duration:</th>
+            <td id="details_duration">
+                123
+            </td>
+        </tr>
+        <tr>
+            <th>Date:</th>
+            <td id="details_date">
+                2000-12-12
+            </td>
+        </tr>
+        <tr>
+            <th>Time:</th>
+            <td id="details_time">
+                12:12
+            </td>
+        </tr>
+        <tr>
+            <th>Max. allowed visitors:</th>
+            <td id="details_max">
+                100
+            </td>
+        </tr>
+        <tr>
+            <th>Current number of visitors:</th>
+            <td id="details_current">
+                12
             </td>
         </tr>
     </table>
 
     <br>
-    <h3>Costs:</h3>
-    <table>
+    <h3>All visitors:</h3>
+    <table id="details_visitors">
         <tr>
-            <th>One Training:</th>
-            <td id="one_training">100</td>
-        </tr>
-        <tr>
-            <th>Monthly membership:</th>
-            <td id="monthly">3000</td>
-        </tr>
-        <tr>
-            <th>Yearly membership:</th>
-            <td id="yearly">23000</td>
-        </tr>
-        <tr>
-            <th>Group training:</th>
-            <td id="group">300</td>
-        </tr>
-        <tr>
-            <th>Proffesional Training:</th>
-            <td id="proffesional">1000</td>
+            <th>Username:</th>
+            <th>Name:</th>
+            <th>Last name:</th>
+            
         </tr>
     </table>
 
-
-    <br>
-    <h3>All group trainings:</h3>
-    <table id="group_table">
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Fitness center</th>
-            <th>Duration</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Max Visitors</th>
-            <th>Current number of visitors</th>
-
-        </tr>
-        <tr>Here will be group training</tr>
-    </table>
-
-    <br>
-    <h3>Comments:</h3>
-    <table id="comment_table">
-        <tr>
-            <th>User</th>
-            <th>Comment</th>
-            <th>Grade</th>
-        </tr>
-    </table>
 
     <script src="../Scripts/customSort.js"></script>
-    <script src="../Scripts/fitnesscenterOwnerDetails.js"></script>
+    <script src="../Scripts/groupTraining.js"></script>
 </body>
 

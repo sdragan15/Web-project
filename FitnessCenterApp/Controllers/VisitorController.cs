@@ -50,6 +50,20 @@ namespace FitnessCenterApp.Controllers
 
         }
 
+        [HttpGet]
+        [Route("api/VisitorsForTraining/{id}")]
+        public string GetAllVisitorsForTraining(int id)
+        {
+
+            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
+
+            IEnumerable<Visitor> result = visitors.Where(x => x.RegisteredTrainings.Contains(id));
+            result.ToList();
+
+            return JsonSerializer.Serialize(result);
+
+        }
+
         [Route("api/Visitor/Number/{id}")]
         public string GetNumberOfVisitorsByTrainingID(int id)
         {

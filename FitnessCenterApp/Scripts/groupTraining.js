@@ -1,44 +1,116 @@
 var CoachUsername
 var TrainingData
+var trainingDetails
 
 $(document).ready(function () {    
     CoachUsername = localStorage.LoggedInUser.split('_')[1]
     let apiQuery = 'GroupTrainingForCoach?username=' + CoachUsername
+    let docLink = location.pathname.split('/').slice(-1)[0]
 
-    $.ajax({
-        type: "GET",
-        url: "../api/" + apiQuery,
-        data: "",
-        dataType: "json",
-        success: function (response) {
-            TrainingData = JSON.parse(response)
-            
-            TrainingData = CustomSortTrainingDate(TrainingData, -1)
-            
-            TrainingData.forEach(element => {
-                AddTrainingToTableForCoach(element)
-            });
-        }
-    });
-
+    if(docLink == 'groupTrainingDetails.html'){
+        trainingDetails = JSON.parse(localStorage.Training)
+        StartDetailsTrainigFile(trainingDetails)
+    }
+    else{
+        $.ajax({
+            type: "GET",
+            url: "../api/" + apiQuery,
+            data: "",
+            dataType: "json",
+            success: function (response) {
+                TrainingData = JSON.parse(response)
+                
+                TrainingData = CustomSortTrainingDate(TrainingData, -1)
+                
+                TrainingData.forEach(element => {
+                    AddTrainingToTableForCoach(element)
+                });
+            }
+        });
     
-    $.ajax({
-        type: "GET",
-        url: "../api/FitenssCenter",
-        data: "",
-        dataType: "json",
-        success: function (response) {
-            data = JSON.parse(response)
-            data = CustomSortString(data, 'Name', -1)
-            
-            data.forEach(element => {
-                AddFitnessNameToSelect(element)
-            });
-        }
-    });
+        
+        $.ajax({
+            type: "GET",
+            url: "../api/FitenssCenter",
+            data: "",
+            dataType: "json",
+            success: function (response) {
+                data = JSON.parse(response)
+                data = CustomSortString(data, 'Name', -1)
+                
+                data.forEach(element => {
+                    AddFitnessNameToSelect(element)
+                });
+            }
+        });
+    
+    }
 
+   
 
 });
+
+function StartDetailsTrainigFile(training){
+    if(training == null){ return }
+
+    $.ajax({
+        type: "GET",
+        url: "../api/Visitor/Number/" + training.Id,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            let count = JSON.parse(response)
+            $('#details_current').text(count)
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "../api/FitenssCenter/" + training.Place,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            let temp = JSON.parse(response)
+            $('#details_place').text(temp.Name)
+        }
+    });
+
+    let trainingDate = training.DateAndTime.split('T')[0]
+    let trainingTime = training.DateAndTime.split('T')[1]
+
+    $('#details_name').text(training.Name)
+    $('#details_type').text(training.TrainingType)
+    $('#details_duration').text(training.Duration)
+    $('#details_date').text(trainingDate)
+    $('#details_time').text(trainingTime)
+    $('#details_max').text(training.MaxVisitors)
+    
+
+    $.ajax({
+        type: "GET",
+        url: "../api/VisitorsForTraining/" + training.Id,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            let temp = JSON.parse(response)
+            console.log(temp)
+            temp.forEach(element => {
+                AddVisitorToVisitorsList(element)
+            });
+        }
+    });
+    
+    
+}
+
+function AddVisitorToVisitorsList(visitor){
+    
+    let query = '<tr><td>' + visitor.Username + '</td>' +
+    '<td>' + visitor.Name + '</td>' +
+    '<td>' + visitor.Lastname + '</td></tr>'
+
+    $('#details_visitors').append(query)
+}
 
 $('#add_training_form').submit(function (e) {     
     let name = $('input[name=name]').val()
@@ -90,6 +162,27 @@ $('#add_training_form').submit(function (e) {
 
 });
 
+$(document).on('click', '.details_btn' , function () {
+    let trainintId = $(this).attr('id').split('_')[1]
+    
+    $.ajax({
+        type: "GET",
+        url: "../api/GroupTraining/" + trainintId,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            trainingDetails = JSON.parse(response)
+            localStorage.Training = response
+            window.location.href = "groupTrainingDetails.html"
+        }
+    });
+});
+
+$('#coach_trainings_details').click(function (e) { 
+    window.location.href = "groupTrainings.html"
+    
+});
+
 function AddFitnessNameToSelect(element){
     if(!element.Deleted){
         let value = '<option id=\'option_' + element.Id + '\'>' + element.Name + '</option>'
@@ -122,9 +215,9 @@ function AddTrainingToTableForCoach(data){
         '</td><td>' + data.TrainingType + 
         '</td><td>' + date + '</td>' +
         '</td><td>' + time + '</td>' +
-        '<td><button class=\'details_btn\' id=\''+ data.Id +'\'>Details</button>' +
-        '<button class=\'edit_btn\' id=\''+ data.Id +'\'>Edit</button>' + 
-        '<button class=\'delete_fitness_btn\' id=\''+ data.Id +'\'>Delete</button></td>'
+        '<td><button class=\'details_btn\' id=\'details_'+ data.Id +'\'>Details</button>' +
+        '<button class=\'edit_btn\' id=\'edit_'+ data.Id +'\'>Edit</button>' + 
+        '<button class=\'delete_fitness_btn\' id=\'delete_'+ data.Id +'\'>Delete</button></td>'
        $('#training_table').append(result)
     }
     
