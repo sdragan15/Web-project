@@ -57,8 +57,13 @@ function GetAllGroupTrainings(id){
             data = JSON.parse(response)
             console.log(data)
             data.forEach(element => {
-                GenerateGroupTraining(element)
-                console.log('broj: ' + element.Id)
+                if(localStorage.LoggedInRole != '' && localStorage.LoggedInRole == 0){
+                    GenerateGroupTrainingForVisitor(element)
+                }
+                else{
+                    GenerateGroupTraining(element)
+                }
+                
             });
         }
     });
@@ -77,6 +82,41 @@ function GetNumberOfVisitorsForTraining(id){
         }
     });
 }
+
+function GenerateGroupTrainingForVisitor(element){
+    GetNumberOfVisitorsForTraining(element.Id)
+    query = '<tr><td>' + element.Name + '</td>' +
+                '<td>' + element.TrainingType +'</td>' +
+                '<td>' + element.Duration + '</td>' +
+                '<td>' + element.DateAndTime.split('T')[0] + '</td>' +
+                '<td>' + element.DateAndTime.split('T')[1] + '</td>' +
+                '<td>' + element.MaxVisitors + '</td>' + 
+                '<td id=\'number_' + element.Id +'\'></td>' +
+                '<td><button class=\'signup_btn\' id=\'sign_' + element.Id + '\'>Sign up</button></td>' +
+                '<td><button class=\'quit_btn\' id=\'quit_' + element.Id + '\'>Quit</button></td>'
+    $('#group_table').append(query)
+    //console.log(element)
+}
+
+$(document).on('click', '.signup_btn', function () {
+    let username = localStorage.LoggedInUser.split('_')[1]
+    let trainingId = $(this).attr('id').split('_')[1]
+    
+    $.ajax({
+        type: "PUT",
+        url: "../api/Visitor/TrainingSignUp?username=" + username + "&trainingId=" + trainingId,
+        data: "",
+        dataType: "json",
+        complete: function (response) {
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+            else{
+                location.reload()
+            }
+        }
+    });
+});
 
 function GenerateGroupTraining(element){
     GetNumberOfVisitorsForTraining(element.Id)

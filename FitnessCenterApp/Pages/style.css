@@ -44,6 +44,10 @@ body{
   display: none;
 }
 
+.quit_btn{
+  display: none;
+}
+
 #cancel_btn{
   display: none;
 }

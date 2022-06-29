@@ -13,6 +13,7 @@ namespace FitnessCenterApp.Controllers
     public class VisitorController : ApiController
     {
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.VisitorsFile);
+        private string trainingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
 
         [HttpPost]
         public HttpResponseMessage RegisterVisitor(Visitor user)
@@ -113,12 +114,55 @@ namespace FitnessCenterApp.Controllers
 
         }
 
+        [HttpPut]
+        [Route("api/Visitor/TrainingSignUp")]
+        public HttpResponseMessage AddTrainingToVisitor(string username, int trainingId)
+        {
+            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
+
+            Visitor visitor = visitors.FirstOrDefault(x => x.Username.Equals(username));
+            if(visitor == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Cant find logged in user");
+            }
+
+            if (visitor.RegisteredTrainings.Contains(trainingId))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "User already signed up for that training");
+            }
+
+            visitor.RegisteredTrainings.Add(trainingId);
+            if(!AddVisitorToTraining(username, trainingId))
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Server error");
+            }
+            WorkingWithFiles.RewriteFileWithEntities<Visitor>(visitors, path);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
         [HttpGet]
         public string GetAllVisitors()
         {
             return JsonSerializer.Serialize(WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path));
         }
 
-        
+
+        private bool AddVisitorToTraining(string username, int trainingId)
+        {
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(trainingPath);
+
+            GroupTraining training = trainings.FirstOrDefault(x => x.Id == trainingId);
+
+            if (training == null)
+            {
+                return false;
+            }
+
+            training.Visitors.Add(username);
+
+            WorkingWithFiles.RewriteFileWithEntities<GroupTraining>(trainings, trainingPath);
+            return true;
+        }
     }
 }
