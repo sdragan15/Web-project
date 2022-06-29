@@ -118,6 +118,9 @@ namespace FitnessCenterApp.Controllers
         [Route("api/Visitor/TrainingSignUp")]
         public HttpResponseMessage AddTrainingToVisitor(string username, int trainingId)
         {
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(trainingPath);
+            GroupTraining training = trainings.FirstOrDefault(x => x.Id == trainingId);
+
             List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
 
             Visitor visitor = visitors.FirstOrDefault(x => x.Username.Equals(username));
@@ -129,6 +132,16 @@ namespace FitnessCenterApp.Controllers
             if (visitor.RegisteredTrainings.Contains(trainingId))
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "User already signed up for that training");
+            }
+
+            if(training == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Server error");
+            }
+
+            if(training.MaxVisitors == training.Visitors.Count)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Training is full");
             }
 
             visitor.RegisteredTrainings.Add(trainingId);
