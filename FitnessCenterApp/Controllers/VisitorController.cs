@@ -141,6 +141,33 @@ namespace FitnessCenterApp.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        [HttpPut]
+        [Route("api/Visitor/TrainingQuit")]
+        public HttpResponseMessage RemoveTrainingFromVisitor(string username, int trainingId)
+        {
+            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(path);
+
+            Visitor visitor = visitors.FirstOrDefault(x => x.Username.Equals(username));
+            if (visitor == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Cant find logged in user");
+            }
+
+            if (!visitor.RegisteredTrainings.Contains(trainingId))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Visitor is not registered to training");
+            }
+
+            visitor.RegisteredTrainings.Remove(trainingId);
+            if (!RemoveVisitorFromTraining(username, trainingId))
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Server error");
+            }
+            WorkingWithFiles.RewriteFileWithEntities<Visitor>(visitors, path);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
         [HttpGet]
         public string GetAllVisitors()
         {
@@ -160,6 +187,23 @@ namespace FitnessCenterApp.Controllers
             }
 
             training.Visitors.Add(username);
+
+            WorkingWithFiles.RewriteFileWithEntities<GroupTraining>(trainings, trainingPath);
+            return true;
+        }
+
+        private bool RemoveVisitorFromTraining(string username, int trainingId)
+        {
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(trainingPath);
+
+            GroupTraining training = trainings.FirstOrDefault(x => x.Id == trainingId);
+
+            if (training == null)
+            {
+                return false;
+            }
+
+            training.Visitors.Remove(username);
 
             WorkingWithFiles.RewriteFileWithEntities<GroupTraining>(trainings, trainingPath);
             return true;

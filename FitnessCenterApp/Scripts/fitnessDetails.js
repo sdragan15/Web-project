@@ -98,6 +98,28 @@ function GenerateGroupTrainingForVisitor(element){
     //console.log(element)
 }
 
+$(document).on('click', '.quit_btn', function () {
+    let username = localStorage.LoggedInUser.split('_')[1]
+    let trainingId = $(this).attr('id').split('_')[1]
+    
+    $.ajax({
+        type: "PUT",
+        url: "../api/Visitor/TrainingQuit?username=" + username + "&trainingId=" + trainingId,
+        data: "",
+        dataType: "json",
+        complete: function (response) {
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+            else{
+                location.reload()
+            }
+        }
+    });
+});
+
+
+
 $(document).on('click', '.signup_btn', function () {
     let username = localStorage.LoggedInUser.split('_')[1]
     let trainingId = $(this).attr('id').split('_')[1]
@@ -117,6 +139,8 @@ $(document).on('click', '.signup_btn', function () {
         }
     });
 });
+
+
 
 function GenerateGroupTraining(element){
     GetNumberOfVisitorsForTraining(element.Id)

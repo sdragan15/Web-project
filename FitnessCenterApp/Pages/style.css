@@ -36,17 +36,11 @@ body{
   display: none;
 }
 
-.block_coach{
-
-}
 
 .unblock_coach{
   display: none;
 }
 
-.quit_btn{
-  display: none;
-}
 
 #cancel_btn{
   display: none;
