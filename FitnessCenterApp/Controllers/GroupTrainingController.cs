@@ -50,29 +50,19 @@ namespace FitnessCenterApp.Controllers
         public HttpResponseMessage DeleteGroupTraining(int id)
         {
             GroupTraining temp = null;
-            List<GroupTraining> centers = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
-            foreach (GroupTraining c in centers)
-            {
-                if (c.Id == id)
-                {
-                    temp = c;
-                }
-            }
-            HttpResponseMessage message;
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
 
-            if (temp != null)
+            temp = trainings.FirstOrDefault(x => x.Id == id);
+
+
+            if (temp != null && (temp.Visitors == null || temp.Visitors.Count == 0))
             {
-                centers.Remove(temp);
-                message = new HttpResponseMessage(HttpStatusCode.OK);
-            }
-            else
-            {
-                message = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                temp.Deleted = true;
+                WorkingWithFiles.RewriteFileWithEntities<GroupTraining>(trainings, path);
+                return new HttpResponseMessage(HttpStatusCode.OK);
             }
 
-            WorkingWithFiles.AddEntitiesToFile<GroupTraining>(centers, path);
-
-            return message;
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error with deleting training, maybe it has registered visitors");
 
         }
 
@@ -106,7 +96,7 @@ namespace FitnessCenterApp.Controllers
             List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
             foreach(GroupTraining t in trainings)
             {
-                if(t.Place == id)
+                if(t.Place == id && t.Deleted == false)
                 {
                     result.Add(t);
                 }
@@ -130,7 +120,7 @@ namespace FitnessCenterApp.Controllers
 
            foreach(GroupTraining training in trainings)
             {
-                if(coach.TrainerForGroups.Contains(training.Id))
+                if(coach.TrainerForGroups.Contains(training.Id) && training.Deleted == false)
                 {
                     result.Add(training);
                 }
@@ -155,7 +145,10 @@ namespace FitnessCenterApp.Controllers
         [HttpGet]
         public string GetAllGroupTrainings()
         {
-            return JsonSerializer.Serialize(WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path));
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
+            IEnumerable<GroupTraining> result = trainings.Where(x => x.Deleted == false);
+            result = result.ToList();
+            return JsonSerializer.Serialize(result);
         }
 
 

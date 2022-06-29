@@ -161,7 +161,6 @@ $('#add_training_form').submit(function (e) {
                     Duration:duration, DateAndTime:dateandtime, MaxVisitors:maxvisitors}
                 
                 console.log(query)
-                alert('hello')
                 query = JSON.stringify(query)
 
                 $.ajax({
@@ -249,6 +248,24 @@ function AddTrainingToTableForCoach(data){
     }
     
 }
+
+$(document).on('click', '.delete_fitness_btn', function () {
+    let id = $(this).attr('id').split('_')[1]
+    $.ajax({
+        type: "DELETE",
+        url: "../api/GroupTraining/" + id,
+        data: "",
+        dataType: "json",
+        complete: function (response) {
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+            else{
+                location.reload()
+            }
+        }
+    });
+});
 
 $(document).on('click','.edit_btn', function () {
     let id = $(this).attr('id').split('_')[1]
