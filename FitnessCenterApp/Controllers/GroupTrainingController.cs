@@ -15,6 +15,7 @@ namespace FitnessCenterApp.Controllers
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
         private string coachPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.CoachFile);
         private string fitnessPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.FitnessCenterFile);
+        private string visitorsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.VisitorsFile);
 
         [HttpPost]
         public HttpResponseMessage AddGroupTraining([FromBody]GroupTraining training, string username)
@@ -89,6 +90,7 @@ namespace FitnessCenterApp.Controllers
             return Request.CreateResponse(HttpStatusCode.BadRequest, "Training dont exist in database");
         }
 
+
         [Route("api/GroupTraining/AllGroups/{id}")]
         public string GetAllGroupTrainigsByFitnessCenterId(int id)
         {
@@ -121,6 +123,31 @@ namespace FitnessCenterApp.Controllers
            foreach(GroupTraining training in trainings)
             {
                 if(coach.TrainerForGroups.Contains(training.Id) && training.Deleted == false)
+                {
+                    result.Add(training);
+                }
+            }
+
+            return JsonSerializer.Serialize(result);
+
+        }
+
+        [Route("api/GroupTrainingForVisitor")]
+        public string GetTrainingsByVisitor(string username)
+        {
+            List<GroupTraining> result = new List<GroupTraining>();
+            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(visitorsPath);
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
+
+            Visitor visitor = visitors.FirstOrDefault(x => x.Username.Equals(username));
+            if (visitor == null || visitor.RegisteredTrainings == null || visitor.RegisteredTrainings.Count <= 0)
+            {
+                return JsonSerializer.Serialize(result);
+            }
+
+            foreach (GroupTraining training in trainings)
+            {
+                if (visitor.RegisteredTrainings.Contains(training.Id) && training.Deleted == false)
                 {
                     result.Add(training);
                 }

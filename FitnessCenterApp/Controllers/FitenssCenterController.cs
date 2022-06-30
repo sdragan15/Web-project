@@ -13,6 +13,7 @@ namespace FitnessCenterApp.Controllers
     public class FitenssCenterController : ApiController
     {
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.FitnessCenterFile);
+        private string trainingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
 
         [HttpPost]
         public HttpResponseMessage AddFitnessCenter(FitnessCenter center)
@@ -91,6 +92,20 @@ namespace FitnessCenterApp.Controllers
 
             return Request.CreateResponse(HttpStatusCode.BadRequest, "Fitness NOT deleted");
 
+        }
+
+        [Route("api/GetPlaceName/{id}")]
+        public string GetPlaceNameById(int id)
+        {
+            List<FitnessCenter> centers = WorkingWithFiles.ReadEntitiesFromFIle<FitnessCenter>(path);
+            FitnessCenter center = centers.FirstOrDefault(x => x.Id == id);
+
+            if (center == null)
+            {
+                return JsonSerializer.Serialize("");
+            }
+
+            return JsonSerializer.Serialize(center.Name);
         }
 
         [HttpGet]

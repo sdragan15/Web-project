@@ -46,6 +46,10 @@ body{
   display: none;
 }
 
+#visitors_trainings{
+  display: none;
+}
+
 #details_owner_div{
   display: none;
 }

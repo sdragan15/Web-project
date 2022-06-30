@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>FitnessApp</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../Scripts/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        <a href="../Pages/index.html">Home</a>
+        <a id="register_nav" href="../Pages/register.html">Register</a>
+        <a id="signout_nav" href="../Pages/signout.html">Sing out</a>
+      </div> 
+
+    <h1>My group trainings:</h1>
+    <br>
+    <table id="training_table">
+        <tr>
+            <th id="table_name" class="desc">Name</th>
+            <th id="table_type" class="desc">Type</th>
+            <th id="table_place" class="desc">Place</th>
+            <th id="table_date" class="asc">Date</th>
+            <th id="table_time" class="desc">Time</th>
+        </tr>
+    </table>
+
+    
+
+    <script src="../Scripts/customSort.js"></script>
+    <script src="../Scripts/visitorTrainings.js"></script>
+</body>
+</html>

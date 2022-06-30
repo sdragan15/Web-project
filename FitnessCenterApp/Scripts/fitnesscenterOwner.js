@@ -151,7 +151,7 @@ $(document).on("click", ".edit_btn" , function() {
     $('#add_fitness_form').attr('class', 'update')
 
     FitnessId = $(this).attr('id')
-    alert(FitnessId)
+    
     $.ajax({
         type: "GET",
         url: "../api/FitenssCenter/" + FitnessId,

@@ -15,6 +15,10 @@ $(document).ready(function () {
     else if(localStorage.LoggedInRole == 1){
         $('#coach_trainings').show()
     }
+    else if(localStorage.LoggedInRole == 0){
+        $('#visitors_trainings').show()
+    }
+
     let apiQuery = 'FitenssCenter'
 
     $.ajax({
@@ -32,6 +36,11 @@ $(document).ready(function () {
             });
         }
     });
+});
+
+$('#visitors_trainings').click(function (e) { 
+    window.location.href = 'visitorTrainings.html'
+    
 });
 
 $('#owner_centers').click(function (e) { 
