@@ -136,18 +136,13 @@ namespace FitnessCenterApp.Controllers
         public string GetTrainingsByVisitor(string username)
         {
             List<GroupTraining> result = new List<GroupTraining>();
-            List<Visitor> visitors = WorkingWithFiles.ReadEntitiesFromFIle<Visitor>(visitorsPath);
+            
             List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
 
-            Visitor visitor = visitors.FirstOrDefault(x => x.Username.Equals(username));
-            if (visitor == null || visitor.RegisteredTrainings == null || visitor.RegisteredTrainings.Count <= 0)
-            {
-                return JsonSerializer.Serialize(result);
-            }
 
             foreach (GroupTraining training in trainings)
             {
-                if (visitor.RegisteredTrainings.Contains(training.Id) && training.Deleted == false)
+                if (training.Visitors.Contains(username) && training.Deleted == false)
                 {
                     result.Add(training);
                 }
