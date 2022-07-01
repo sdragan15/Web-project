@@ -34,7 +34,13 @@ $(document).ready(function () {
     $('#proffesional').text(FitnessCenter.ProffesionalTrainingCost)
 
     GetAllGroupTrainings(FitnessCenter.Id)    
-    GenerateAllCommentsForFitnessCenter(FitnessCenter.Id)
+    if(localStorage.LoggedInRole == 2){
+        GenerateAllCommentsForFitnessCenter(FitnessCenter.Id)
+    }
+    else{
+        GenerateAllVerifiedComments(FitnessCenter.Id)
+    }
+    
 });
 
 $('#trainer_add_form').submit(function (e) { 
@@ -221,10 +227,70 @@ function GenerateAllCommentsForFitnessCenter(id){
         success: function (response) {
             data = JSON.parse(response)
             data.forEach(element => {
+                let buttonText = '<td><button class=\'verify_btn\' id=\'verify_' + element.Id +'\'>Verify</button></td>' + 
+                                '<td><button class=\'remove_comment_btn\' id=\'remove_' + element.Id +'\'>Remove</button></td>'
+                if(element.Verified){
+                    buttonText = ''
+                }
+                
                 let query = '<tr><td>' + element.FromUser + '</td>' +
                             '<td>' + element.Text + '</td>' +
-                            '<td>' + element.Grade + '</td></tr>'
+                            '<td>' + element.Grade + '</td>' +
+                            buttonText + '</tr>'
+
                 $('#comment_table').append(query)
+            });
+        }
+    });
+}
+
+$(document).on('click', '.remove_comment_btn', function () {
+    let id = $(this).attr('id').split('_')[1]
+    $(this).parent().parent().remove()
+    $.ajax({
+        type: "PUT",
+        url: "../api/RemoveComment/" + id,
+        data: "",
+        dataType: "json",
+        complete: function (response) {
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+        }
+    });
+});
+
+$(document).on('click', '.verify_btn', function () {
+    let id = $(this).attr('id').split('_')[1]
+    $(this).parent().remove()
+    $.ajax({
+        type: "PUT",
+        url: "../api/VerifyComment/" + id,
+        data: "",
+        dataType: "json",
+        complete: function (response) {
+            if(response.status != 200){
+                alert(response.responseText)
+            }
+        }
+    });
+});
+
+function GenerateAllVerifiedComments(id){
+    $.ajax({
+        type: "GET",
+        url: "../api/Comment/ForFitnessCenter/" + id,
+        data: "",
+        dataType: "json",
+        success: function (response) {
+            data = JSON.parse(response)
+            data.forEach(element => {
+                if(element.Verified){
+                    let query = '<tr><td>' + element.FromUser + '</td>' +
+                    '<td>' + element.Text + '</td>' +
+                    '<td>' + element.Grade + '</td></tr>'
+                    $('#comment_table').append(query)
+                }
             });
         }
     });

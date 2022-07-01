@@ -36,7 +36,9 @@ $(document).ready(function () {
     $('#proffesional').text(FitnessCenter.ProffesionalTrainingCost)
 
     GetAllGroupTrainings(FitnessCenter.Id)    
-    GenerateAllCommentsForFitnessCenter(FitnessCenter.Id)
+
+    GenerateAllVerifiedComments(FitnessCenter.Id)
+    
 });
 
 $('#comment_forms').submit(function (e) { 
@@ -198,7 +200,7 @@ function GenerateGroupTraining(element){
 
 }
 
-function GenerateAllCommentsForFitnessCenter(id){
+function GenerateAllVerifiedComments(id){
     $.ajax({
         type: "GET",
         url: "../api/Comment/ForFitnessCenter/" + id,
@@ -207,10 +209,12 @@ function GenerateAllCommentsForFitnessCenter(id){
         success: function (response) {
             data = JSON.parse(response)
             data.forEach(element => {
-                let query = '<tr><td>' + element.FromUser + '</td>' +
-                            '<td>' + element.Text + '</td>' +
-                            '<td>' + element.Grade + '</td></tr>'
-                $('#comment_table').append(query)
+                if(element.Verified){
+                    let query = '<tr><td>' + element.FromUser + '</td>' +
+                    '<td>' + element.Text + '</td>' +
+                    '<td>' + element.Grade + '</td></tr>'
+                    $('#comment_table').append(query)
+                }
             });
         }
     });

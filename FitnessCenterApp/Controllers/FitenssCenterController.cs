@@ -80,10 +80,19 @@ namespace FitnessCenterApp.Controllers
         {
             int index = -1;
             List<FitnessCenter> centers = WorkingWithFiles.ReadEntitiesFromFIle<FitnessCenter>(path);
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(trainingPath);
             index = centers.FindIndex(x => x.Id == id);
 
             if (index != -1)
             {
+                foreach(GroupTraining t in trainings)
+                {
+                    if(t.Deleted == false && t.Place == id && !CommentController.DateInPast(t.DateAndTime.Date))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Fitness center has trainigs in future");
+                    }
+                }
+
                 centers[index].Deleted = true;
 
                 WorkingWithFiles.RewriteFileWithEntities<FitnessCenter>(centers, path);

@@ -13,10 +13,12 @@ namespace FitnessCenterApp.Models
         public string Text { get; set; }
         public int Grade { get; set; }
         public bool Verified { get; set; }
+        public bool Deleted { get; set; }
 
         public Comment()
         {
             Verified = false;
+            Deleted = false;
         }
     }
 }

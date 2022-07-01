@@ -48,6 +48,43 @@ namespace FitnessCenterApp.Controllers
 
         }
 
+        [HttpPut]
+        [Route("api/RemoveComment/{id}")]
+        public HttpResponseMessage RemoveComment(int id)
+        {
+            List<Comment> comments = WorkingWithFiles.ReadEntitiesFromFIle<Comment>(path);
+            Comment comment = comments.FirstOrDefault(x => x.Id == id);
+
+            if(comment == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Comment not found in database");
+            }
+
+            comment.Deleted = true;
+            comment.Verified = false;
+            WorkingWithFiles.RewriteFileWithEntities<Comment>(comments, path);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPut]
+        [Route("api/VerifyComment/{id}")]
+        public HttpResponseMessage VerifyComment(int id)
+        {
+            List<Comment> comments = WorkingWithFiles.ReadEntitiesFromFIle<Comment>(path);
+            Comment comment = comments.FirstOrDefault(x => x.Id == id);
+
+            if (comment == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Comment not found in database");
+            }
+
+            comment.Verified = true;
+            WorkingWithFiles.RewriteFileWithEntities<Comment>(comments, path);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
         [Route("api/Comment/ForFitnessCenter/{id}")]
         public string GetAllCommentsForFitnessCenter(int id)
         {
@@ -55,7 +92,7 @@ namespace FitnessCenterApp.Controllers
             List<Comment> result = new List<Comment>();
             foreach(Comment c in comments)
             {
-                if(c.ToFitnessCenter == id)
+                if(c.ToFitnessCenter == id && c.Deleted == false)
                 {
                     result.Add(c);
                 }
@@ -83,7 +120,7 @@ namespace FitnessCenterApp.Controllers
             return false;
         }
 
-        private bool DateInPast(DateTime date)
+        public static bool DateInPast(DateTime date)
         {
             if(DateTime.Now > date)
             {
