@@ -227,8 +227,8 @@ function GenerateAllCommentsForFitnessCenter(id){
         success: function (response) {
             data = JSON.parse(response)
             data.forEach(element => {
-                let buttonText = '<td><button class=\'verify_btn\' id=\'verify_' + element.Id +'\'>Verify</button></td>' + 
-                                '<td><button class=\'remove_comment_btn\' id=\'remove_' + element.Id +'\'>Remove</button></td>'
+                let buttonText = '<td><button class=\'verify_btn\' id=\'verify_' + element.Id +'\'>Verify</button>' + 
+                                '<button class=\'remove_comment_btn\' id=\'remove_' + element.Id +'\'>Remove</button></td>'
                 if(element.Verified){
                     buttonText = ''
                 }

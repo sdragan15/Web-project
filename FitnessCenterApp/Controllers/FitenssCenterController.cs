@@ -14,6 +14,10 @@ namespace FitnessCenterApp.Controllers
     {
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.FitnessCenterFile);
         private string trainingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
+        private string coachPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.CoachFile);
+
+
+
 
         [HttpPost]
         public HttpResponseMessage AddFitnessCenter(FitnessCenter center)
@@ -93,6 +97,7 @@ namespace FitnessCenterApp.Controllers
                     }
                 }
 
+                RemoveFitnessCenterFromCoaches(id);
                 centers[index].Deleted = true;
 
                 WorkingWithFiles.RewriteFileWithEntities<FitnessCenter>(centers, path);
@@ -153,5 +158,18 @@ namespace FitnessCenterApp.Controllers
             return JsonSerializer.Serialize(WorkingWithFiles.ReadEntitiesFromFIle<FitnessCenter>(path));
         }
 
+
+        private void RemoveFitnessCenterFromCoaches(int fitnessId)
+        {
+            List<Coach> coaches = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(coachPath);
+            foreach(Coach c in coaches)
+            {
+                if(c.WorkingInFitnessCenter == fitnessId)
+                {
+                    c.WorkingInFitnessCenter = -1;
+                }
+            }
+            WorkingWithFiles.RewriteFileWithEntities<Coach>(coaches, coachPath);
+        }
     }
 }
