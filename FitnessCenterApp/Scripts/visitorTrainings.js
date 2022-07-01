@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     $.when(GetTrainingData(apiQuery)).done(function(){
 
-        TrainingData = CustomSortTrainingDate(TrainingData, -1)
+        TrainingData = CustomSortTrainingDate(TrainingData, 1)
             
         TrainingData.forEach(element => {
             
@@ -92,28 +92,6 @@ function AddTrainingToTableForCoach(data){
         }
     }
 }
-
-$('#comment_forms').submit(function (e) { 
-    e.preventDefault();
-    let text = $('#comment_text').val()
-    
-    let query = {}
-
-
-    $.ajax({
-        type: "POST",
-        url: "../api/Comment",
-        data: query,
-        dataType: "json",
-        contentType: "application/json",
-        complete: function(response){
-            if(response.status != 201){
-                alert(response.responseText)
-            }
-        }
-    });
-    
-});
 
 $('#table_place').click(function (e) {
     var type = 0

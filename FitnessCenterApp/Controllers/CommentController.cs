@@ -13,16 +13,16 @@ namespace FitnessCenterApp.Controllers
     public class CommentController : ApiController
     {
         private string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.CommentsFile);
+        private string trainingPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.GroupTraningsFile);
+        private string visitorPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", Assets.VisitorsFile);
 
         [HttpPost]
         public HttpResponseMessage AddComment(Comment com)
         {
-            //Comment temp = new Comment();
-            //temp.FromUser = "milica123";
-            //temp.Grade = 5;
-            //temp.Text = "Very nice!";
-            //temp.ToFitnessCenter = 1;
-            //temp.Id = 2;
+            if(!UserHadTrainingInFitnessCenter(com.FromUser, com.ToFitnessCenter))
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "User never had training in this fitness center");
+            }
 
             List<Comment> comments = WorkingWithFiles.ReadEntitiesFromFIle<Comment>(path);
             if (comments.Count > 0)
@@ -62,6 +62,36 @@ namespace FitnessCenterApp.Controllers
             }
 
             return JsonSerializer.Serialize(result);
+        }
+
+        private bool UserHadTrainingInFitnessCenter(string username, int id)
+        {
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(trainingPath);
+
+            foreach(GroupTraining t in trainings)
+            {
+                if(t.Place == id && t.Visitors.Contains(username))
+                {
+                    DateTime trainingFinished = t.DateAndTime.AddMinutes(t.Duration);
+                    if (DateInPast(trainingFinished))
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        private bool DateInPast(DateTime date)
+        {
+            if(DateTime.Now > date)
+            {
+                return true;
+            }
+
+            return false;
+               
         }
 
     }

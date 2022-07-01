@@ -47,6 +47,7 @@ $('#comment_forms').submit(function (e) {
         $('#comment_text').focus()
         return false;
     }
+    e.preventDefault();
 
     let query = {FromUser:Username, ToFitnessCenter:FitnessCenter.Id,
         Text:text, Grade:grade}
@@ -61,7 +62,6 @@ $('#comment_forms').submit(function (e) {
         contentType: "application/json",
         complete: function(response){
             if(response.status != 201){
-                e.preventDefault();
                 alert(response.responseText)
             }
             else{
