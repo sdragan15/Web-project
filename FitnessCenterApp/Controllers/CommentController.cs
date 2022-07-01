@@ -35,17 +35,16 @@ namespace FitnessCenterApp.Controllers
             {
                 if (c.Id == com.Id)
                 {
-                    HttpResponseMessage message = new HttpResponseMessage(HttpStatusCode.BadRequest);
-                    return message;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Id already exists");
                 }
             }
 
             if (WorkingWithFiles.AddEntitiesToFile<Comment>(res, path))
             {
-                return new HttpResponseMessage(HttpStatusCode.Created);
+                return Request.CreateResponse(HttpStatusCode.Created);
             }
 
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, "Server error");
 
         }
 

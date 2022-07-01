@@ -1,6 +1,6 @@
 var AllGroupTrainings = []
 var AllVisitors = []
-
+var Username
 
 $(document).ready(function () {
     if(localStorage.LoggedInUser != null && localStorage.LoggedInUser != ''){      
@@ -13,6 +13,11 @@ $(document).ready(function () {
     if(localStorage.LoggedInRole == 2){
         $('#owner_centers').show()
     }
+    else if(localStorage.LoggedInRole != '' && localStorage.LoggedInRole == 0){
+        $('#comments_div').show()
+    }
+
+    Username = localStorage.LoggedInUser.split('_')[1]
 
     FitnessCenter = JSON.parse(localStorage.FitnessCenter)
     
@@ -33,6 +38,43 @@ $(document).ready(function () {
     GetAllGroupTrainings(FitnessCenter.Id)    
     GenerateAllCommentsForFitnessCenter(FitnessCenter.Id)
 });
+
+$('#comment_forms').submit(function (e) { 
+    let text = $('#comment_text').val()
+    let grade = $('#grade_input').val()
+
+    if(text == ''){
+        $('#comment_text').focus()
+        return false;
+    }
+
+    let query = {FromUser:Username, ToFitnessCenter:FitnessCenter.Id,
+        Text:text, Grade:grade}
+
+    query = JSON.stringify(query)
+
+    $.ajax({
+        type: "POST",
+        url: "../api/Comment",
+        data: query,
+        dataType: "json",
+        contentType: "application/json",
+        complete: function(response){
+            if(response.status != 201){
+                e.preventDefault();
+                alert(response.responseText)
+            }
+            else{
+                location.reload()
+            }
+        }
+    });
+    
+});
+
+function UpdateGrade(value){
+    $('#grade_label').text('Grade: ' + value)
+}
 
 $('#owner_centers').click(function (e) { 
     window.location.href = 'fitnesscenterOwner.html'

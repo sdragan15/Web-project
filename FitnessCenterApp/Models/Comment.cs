@@ -12,5 +12,11 @@ namespace FitnessCenterApp.Models
         public int ToFitnessCenter { get; set; }            // fitness center id 
         public string Text { get; set; }
         public int Grade { get; set; }
+        public bool Verified { get; set; }
+
+        public Comment()
+        {
+            Verified = false;
+        }
     }
 }

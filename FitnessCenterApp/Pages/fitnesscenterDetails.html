@@ -77,6 +77,22 @@
         </tr>
     </table>
 
+    <div id="comments_div">
+        <br>
+        <form id="comment_forms" method="post">
+            <label>Add Comment:</label>
+            <br>
+            <textarea id="comment_text" cols="50" rows="4"></textarea>
+            <br>
+            <br>
+            <label id="grade_label">Grade: 3</label>
+            <br>
+            <input id="grade_input" type="range" min="1" max="5" value="3" oninput="UpdateGrade(this.value)">
+            <br>
+            <input type="submit" value="Add">
+        </form>
+    </div>
+
     <br>
     <h3>Comments:</h3>
     <table id="comment_table">
