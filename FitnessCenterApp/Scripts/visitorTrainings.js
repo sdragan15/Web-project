@@ -1,6 +1,7 @@
 var VisitorUsername
 var TrainingData
 var PlaceMap = []
+var TrainingForSearch = []
 
 $(document).ready(function () {    
     VisitorUsername = localStorage.LoggedInUser.split('_')[1]
@@ -22,6 +23,9 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (response) {
                     let place = JSON.parse(response)
+                    let temp = element
+                    temp.Place = place
+                    TrainingForSearch.push(temp)
                     PlaceMap.push({Id:element.Place, Value:place})
                 }
             });
@@ -117,6 +121,34 @@ $('#table_place').click(function (e) {
         AddTrainingToTableForCoach(element)
     });
 
+});
+
+function SearchChanged(value){
+    FilterGroupTrainingsByValue(value, TrainingForSearch, 'none')
+}
+
+function SearchByName(){
+    value = $('#search_name').val()
+    FilterGroupTrainingsByValue(value, TrainingForSearch, 'name')
+}
+
+function SearchByType(){
+    value = $('#search_type').val()
+    FilterGroupTrainingsByValue(value, TrainingForSearch, 'type')
+}
+
+function SearchByPlace(){
+    value = $('#search_place').val()
+    FilterGroupTrainingsByValue(value, TrainingForSearch, 'place')
+}
+
+$('#search_training_btn').click(function (e) { 
+    $('#search_training').val('')
+    value = $('#search_name').val('')
+    value = $('#search_type').val('')
+    value = $('#search_place').val('')
+    FilterGroupTrainingsByValue('', TrainingForSearch, 'none')
+    
 });
 
 function CustomSortPlace(data, type){

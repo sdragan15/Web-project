@@ -15,6 +15,23 @@
 
     <h1>My group trainings:</h1>
     <br>
+    <div>
+        <h3>Search by:</h3>
+        <input id="search_name" type="text" placeholder="Name">
+        <input id="search_name_btn" type="button" value="Search" onclick="SearchByName()">
+        <br>
+        <input id="search_type" type="text" placeholder="Training Type">
+        <input id="search_type_btn" type="button" value="Search" onclick="SearchByType()">
+        <br>
+        <input id="search_place" type="text" placeholder="Place">
+        <input id="search_place_btn" type="button" value="Search" onclick="SearchByPlace()">
+        <br>
+        <br>
+        <input id="search_training" type="text" placeholder="Search" oninput="SearchChanged(this.value)">
+        <input id="search_training_btn" type="button" value="Clear">
+        <br>
+    </div>
+    <br>
     <table id="training_table">
         <tr>
             <th id="table_name" class="desc">Name</th>
@@ -28,7 +45,7 @@
     <br>
 
 
-
+    <script src="../Scripts/searchFilters.js"></script>
     <script src="../Scripts/customSort.js"></script>
     <script src="../Scripts/visitorTrainings.js"></script>
 </body>
