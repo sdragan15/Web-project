@@ -107,6 +107,22 @@ namespace FitnessCenterApp.Controllers
             return JsonSerializer.Serialize(result);
         }
 
+        [Route("api/GroupTraining/AllGroupsInFuture/{id}")]
+        public string GetAllGroupTrainigsInFutureByFitnessCenterId(int id)
+        {
+            List<GroupTraining> result = new List<GroupTraining>();
+            List<GroupTraining> trainings = WorkingWithFiles.ReadEntitiesFromFIle<GroupTraining>(path);
+            foreach (GroupTraining t in trainings)
+            {
+                if (t.Place == id && t.Deleted == false && !CommentController.DateInPast(t.DateAndTime.Date))
+                {
+                    result.Add(t);
+                }
+            }
+
+            return JsonSerializer.Serialize(result);
+        }
+
         [Route("api/GroupTrainingForCoach")]
         public string GetCoachesByFitnessCenter(string username)
         {

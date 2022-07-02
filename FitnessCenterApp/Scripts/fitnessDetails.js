@@ -94,7 +94,7 @@ function LoggedInMode(){
 function GetAllGroupTrainings(id){
     $.ajax({
         type: "GET",
-        url: "../api/GroupTraining/AllGroups/" + id,
+        url: "../api/GroupTraining/AllGroupsInFuture/" + id,
         data: "",
         dataType: "json",
         success: function (response) {
