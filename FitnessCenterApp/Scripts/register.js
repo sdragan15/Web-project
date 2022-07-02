@@ -9,6 +9,7 @@ $(document).ready(function () {
 
 function NoLoggedUserMode(){
     $('#signout_nav').hide()
+    $('#profile_nav').hide()
 }
 
 function LoggedInMode(){

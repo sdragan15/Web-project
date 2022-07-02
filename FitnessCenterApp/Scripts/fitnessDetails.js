@@ -85,6 +85,7 @@ $('#owner_centers').click(function (e) {
 
 function NoLoggedUserMode(){
     $('#signout_nav').hide()
+    $('#profile_nav').hide()
 }
 
 function LoggedInMode(){
