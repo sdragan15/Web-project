@@ -21,7 +21,7 @@ $(document).ready(function () {
             success: function (response) {
                 TrainingData = JSON.parse(response)
                 
-                TrainingData = CustomSortTrainingDate(TrainingData, -1)
+                TrainingData = CustomSortTrainingDate(TrainingData, 1)
                 
                 TrainingData.forEach(element => {
                     AddTrainingToTableForCoach(element)
@@ -236,7 +236,18 @@ function AddTrainingToTableForCoach(data){
     let date = data.DateAndTime.split('T')[0]
     let time = data.DateAndTime.split('T')[1]
 
-    if(!data.Deleted){
+    let fullDate = new Date(date)
+    fullDate.setHours(time.split(':')[0], time.split(':')[1])
+    let today = new Date()
+
+    if(fullDate < today){
+        var result = '<tr><td>' + data.Name +
+        '</td><td>' + data.TrainingType + 
+        '</td><td>' + date + '</td>' +
+        '</td><td>' + time + '</td>' +
+        '<td><button class=\'details_btn\' id=\'details_'+ data.Id +'\'>Details</button>'
+    }
+    else{
         var result = '<tr><td>' + data.Name +
         '</td><td>' + data.TrainingType + 
         '</td><td>' + date + '</td>' +
@@ -244,6 +255,10 @@ function AddTrainingToTableForCoach(data){
         '<td><button class=\'details_btn\' id=\'details_'+ data.Id +'\'>Details</button>' +
         '<button class=\'edit_btn\' id=\'edit_'+ data.Id +'\'>Edit</button>' + 
         '<button class=\'delete_fitness_btn\' id=\'delete_'+ data.Id +'\'>Delete</button></td>'
+    }
+
+    if(!data.Deleted){
+        
        $('#training_table').append(result)
     }
     
