@@ -21,6 +21,9 @@ $(document).ready(function () {
             $('#visitors_trainings').show()
         }
     }
+    else{
+        $('#profile_nav').hide()
+    }
     
 
     let apiQuery = 'FitenssCenter'

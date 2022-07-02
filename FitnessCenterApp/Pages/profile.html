@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>FitnessApp</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="profile.css">
+    <script src="../Scripts/jquery-3.6.0.js"></script>
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="../Pages/index.html">Home</a>
+        <a id="register_nav" href="../Pages/register.html">Register</a>
+        <a id="signout_nav" href="../Pages/signout.html">Sing out</a>
+        <a class="active" id="profile_nav" href="../Pages/profile.html">My Profile</a>
+      </div> 
+
+    <div>
+        <table>
+            <tr>
+                <th>Username:</th>
+                <td id="my_username">Milojko</td>
+            </tr>
+            <tr>
+                <th>Name:</th>
+                <td id="my_name">Milojko</td>
+            </tr>
+            <tr>
+                <th>Last name:</th>
+                <td id="my_lastname">Milojko</td>
+            </tr>
+            <tr>
+                <th>Gender:</th>
+                <td id="my_gender">Musko</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td id="my_email">milojko@123</td>
+            </tr>
+            <tr>
+                <th>Birth:</th>
+                <td id="my_birth">davno</td>
+            </tr>
+            <tr>
+                <th>Rights:</th>
+                <td id="my_role">Boss</td>
+            </tr>
+        </table>
+    </div>
+
+    <button id="edit_profile_btn">Edit</button>
+    <button id="cancel_profile_btn">Cancel</button>
+
+    <div id="edit_div">
+        <form method="post">
+            <table>
+                <tr>
+                    <th>Name:</th>
+                    <td id="edit_name">
+                        <input type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Last name:</th>
+                    <td>
+                        <input  id="edit_lastname" type="text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Gender:</th>
+                    <td>
+                        <select id="edit_gender">
+                            <option>MALE</option>
+                            <option>FEMALE</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td >
+                        <input id="edit_email" type="email">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Old password:</th>
+                    <td>
+                        <input id="edit_password" type="password">
+                    </td>
+                </tr>
+                <tr>
+                    <th>New password:</th>
+                    <td>
+                        <input id="edit_new_password" type="password">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Birth:</th>
+                    <td>
+                        <input id="edit_birth" type="date">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" value="Update">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        
+    </div>
+
+
+    <script src="../Scripts/profile.js"></script>
+</body>
