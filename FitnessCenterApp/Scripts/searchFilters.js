@@ -63,3 +63,35 @@ function FilterGroupTrainingsByValue(value, data, searchType){
         AddTrainingToTableForCoach(element)
     });
 }
+
+
+function FilterGroupTrainingsByParameters(name, type, from, to, data){
+    let FilteredData = []
+    name = name.toLowerCase()
+    
+    
+    console.log(data)
+    data.forEach(element => {
+        let elementName = element.Name.toLowerCase() 
+        if(elementName.includes(name) && element.TrainingType.includes(type)){
+            if(from == '' || to == ''){
+                FilteredData.push(element)
+            }
+            else{
+                var date0 = new Date(Date.parse(from));
+                var date1 = new Date(Date.parse(element.DateAndTime));
+                var date2 = new Date(Date.parse(to));
+
+                //console.log(date0 + ' ----- ' + date1 + ' ----- ' + date2)
+                if(date0 <= date1 && date1 <= date2)[
+                    FilteredData.push(element)
+                ]
+            }
+        }
+    });
+
+    DeleteTrainingRows()
+    FilteredData.forEach(element => {
+        AddTrainingToTableForCoach(element)
+    });
+}

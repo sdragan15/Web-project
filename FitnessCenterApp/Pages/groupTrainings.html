@@ -15,6 +15,22 @@
       </div> 
 
     <h1>My group trainings:</h1>
+    <div>
+        <input id="search_name" type="text" placeholder="Name">
+        <select id="search_type">
+            <option>NONE</option>
+            <option>YOGA</option>
+            <option>LES MILLS TONE</option>
+            <option>BODY PUMP</option>
+        </select>
+        <label>From:</label>
+        <input id="search_from" type="datetime-local">
+        <label>To:</label>
+        <input id="search_to" type="datetime-local">
+        <br>
+        <input id="search_btn" type="button" value="Search">
+        <input id="clear_btn" type="button" value="Clear">
+    </div>
     <br>
     <table id="training_table">
         <tr>
@@ -83,6 +99,7 @@
         </table>
     </form>
 
+    <script src="../Scripts/searchFilters.js"></script>
     <script src="../Scripts/customSort.js"></script>
     <script src="../Scripts/groupTraining.js"></script>
 </body>

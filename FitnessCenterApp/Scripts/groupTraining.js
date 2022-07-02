@@ -308,7 +308,31 @@ $(document).on('click','.edit_btn', function () {
 
 });
 
+$('#search_btn').click(function (e) { 
+    let name = $('#search_name').val()
+    let type = $('#search_type').find(":selected").text();
+    let from = $('#search_from').val()
+    let to = $('#search_to').val()
+    if(type == 'NONE'){
+        type = ''
+    }
+    
+    FilterGroupTrainingsByParameters(name, type, from, to, TrainingData)
+    
+});
 
+$('#clear_btn').click(function (e) { 
+    let name = $('#search_name').val('')
+    let from = $('#search_from').val('')
+    let to = $('#search_to').val('')
+    
+    data = CustomSortTrainingDate(TrainingData, 1)
+    DeleteTrainingRows()
+    data.forEach(element => {
+        AddTrainingToTableForCoach(element)
+    });
+    
+});
 
 function EditMode(){
     $('#edit_btn_submit').show()
