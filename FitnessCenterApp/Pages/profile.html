@@ -19,31 +19,31 @@
         <table>
             <tr>
                 <th>Username:</th>
-                <td id="my_username">Milojko</td>
+                <td id="my_username"></td>
             </tr>
             <tr>
                 <th>Name:</th>
-                <td id="my_name">Milojko</td>
+                <td id="my_name"></td>
             </tr>
             <tr>
                 <th>Last name:</th>
-                <td id="my_lastname">Milojko</td>
+                <td id="my_lastname"></td>
             </tr>
             <tr>
                 <th>Gender:</th>
-                <td id="my_gender">Musko</td>
+                <td id="my_gender"></td>
             </tr>
             <tr>
                 <th>Email:</th>
-                <td id="my_email">milojko@123</td>
+                <td id="my_email"></td>
             </tr>
             <tr>
                 <th>Birth:</th>
-                <td id="my_birth">davno</td>
+                <td id="my_birth"></td>
             </tr>
             <tr>
                 <th>Rights:</th>
-                <td id="my_role">Boss</td>
+                <td id="my_role"></td>
             </tr>
         </table>
     </div>
@@ -52,12 +52,12 @@
     <button id="cancel_profile_btn">Cancel</button>
 
     <div id="edit_div">
-        <form method="post">
+        <form method="post" id="edit_profile_form">
             <table>
                 <tr>
                     <th>Name:</th>
-                    <td id="edit_name">
-                        <input type="text">
+                    <td >
+                        <input id="edit_name" type="text">
                     </td>
                 </tr>
                 <tr>
@@ -70,8 +70,8 @@
                     <th>Gender:</th>
                     <td>
                         <select id="edit_gender">
-                            <option>MALE</option>
-                            <option>FEMALE</option>
+                            <option value="0">MALE</option>
+                            <option value="1">FEMALE</option>
                         </select>
                     </td>
                 </tr>
@@ -82,7 +82,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Old password:</th>
+                    <th>Old password (required):</th>
                     <td>
                         <input id="edit_password" type="password">
                     </td>
