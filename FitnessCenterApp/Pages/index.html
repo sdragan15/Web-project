@@ -21,6 +21,13 @@
     <button id="coach_trainings">Show my group trainings</button>
     <button id="visitors_trainings">Show my group trainings</button>
     <br>
+    <div>
+        <br>
+        <input id="fitness_search" type="text" placeholder="Search" oninput="SearchChanged(this.value)">
+        <input id="fitness_clear_btn" type="button" value="Clear">
+        <br>
+    </div>
+    
     <br>
     <table id="fitness_table" class="tt">
         <tr>
@@ -31,6 +38,7 @@
     </table>
 
 
+    <script src="../Scripts/searchFilters.js"></script>
     <script src="../Scripts/customSort.js"></script>    
     <script src="../Scripts/fitnesscenter.js"></script>
     

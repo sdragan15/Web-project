@@ -1,4 +1,5 @@
 ﻿var data
+var FitnessCenters = []
 
 $(document).ready(function () {
     if(localStorage.LoggedInUser != null && localStorage.LoggedInUser != ''){
@@ -9,15 +10,18 @@ $(document).ready(function () {
         NoLoggedUserMode()
     }
     
-    if(localStorage.LoggedInRole == 2){
-        $('#owner_centers').show()
+    if(localStorage.LoggedInRole != ''){
+        if(localStorage.LoggedInRole == 2){
+            $('#owner_centers').show()
+        }
+        else if(localStorage.LoggedInRole == 1){
+            $('#coach_trainings').show()
+        }
+        else if(localStorage.LoggedInRole == 0){
+            $('#visitors_trainings').show()
+        }
     }
-    else if(localStorage.LoggedInRole == 1){
-        $('#coach_trainings').show()
-    }
-    else if(localStorage.LoggedInRole == 0){
-        $('#visitors_trainings').show()
-    }
+    
 
     let apiQuery = 'FitenssCenter'
 
@@ -29,6 +33,7 @@ $(document).ready(function () {
         success: function (response) {
             data = JSON.parse(response)
             
+            FitnessCenters = data
             data = CustomSortString(data, 'Name', -1)
             
             data.forEach(element => {
@@ -37,6 +42,15 @@ $(document).ready(function () {
         }
     });
 });
+
+$('#fitness_clear_btn').click(function(){
+    $('#fitness_search').val('')
+    FilterFitnessCenterTableByValue('')
+})
+
+function SearchChanged(value){
+    FilterFitnessCenterTableByValue(value)
+}
 
 $('#visitors_trainings').click(function (e) { 
     window.location.href = 'visitorTrainings.html'
