@@ -97,6 +97,31 @@ function AddTrainingToTableForCoach(data){
     }
 }
 
+function AddHistoryTrainingsForVisitor(data){
+    let date = data.DateAndTime.split('T')[0]
+    let time = data.DateAndTime.split('T')[1]
+   
+
+    let fullDate = new Date(date)
+    fullDate.setHours(time.split(':')[0], time.split(':')[1])
+    let today = new Date()
+
+    if(fullDate < today){
+        TrainingData.push(data)
+        TrainingForSearch.push(data)
+        if(!data.Deleted){
+            var result = '<tr><td>' + data.Name +
+            '</td><td>' + data.TrainingType + 
+            '</td><td>' + data.Place + 
+            '</td><td>' + date + '</td>' +
+            '</td><td>' + time + '</td>'
+           $('#training_table').append(result)
+        }
+    }
+
+    
+}
+
 $('#table_place').click(function (e) {
     var type = 0
     if($(this).hasClass('asc')){
@@ -181,6 +206,22 @@ function CustomSortPlace(data, type){
     return data
 }
 
+
+$('#history_btn').click(function (e) { 
+    let tempData = TrainingForSearch
+    TrainingForSearch = []
+    TrainingData = []
+    DeleteTrainingRows()
+    tempData.forEach(element => {
+        AddHistoryTrainingsForVisitor(element)
+    });
+    
+});
+
+$('#all_btn').click(function (e) { 
+    
+    location.reload()
+});
 
 $('#table_name').click(function (e) {
     var type = 0
