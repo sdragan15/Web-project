@@ -67,6 +67,7 @@ $('#comment_forms').submit(function (e) {
                 alert(response.responseText)
             }
             else{
+                alert('Comment sent.')
                 location.reload()
             }
         }
