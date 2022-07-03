@@ -209,6 +209,20 @@ $('#coach_trainings_details').click(function (e) {
     
 });
 
+$('#all_button').click(function(){
+    location.reload()
+})
+
+$('#history_button').click(function(){
+    let tempData = TrainingData
+    TrainingData = []
+    DeleteTrainingRows()
+    tempData.forEach(element => {
+        
+        AddHistoryTrainings(element)
+    });
+})
+
 function AddFitnessNameToSelect(element){
     $.ajax({
         type: "GET",
@@ -240,6 +254,29 @@ function ValidateInput(value, name){
     else{
         $('input[name=' + name + ']').removeClass('error')
         return true
+    }
+}
+
+function AddHistoryTrainings(data){
+    let date = data.DateAndTime.split('T')[0]
+    let time = data.DateAndTime.split('T')[1]
+
+    let fullDate = new Date(date)
+    fullDate.setHours(time.split(':')[0], time.split(':')[1])
+    let today = new Date()
+
+    if(fullDate < today){
+        TrainingData.push(data)
+        var result = '<tr><td>' + data.Name +
+        '</td><td>' + data.TrainingType + 
+        '</td><td>' + date + '</td>' +
+        '</td><td>' + time + '</td>' +
+        '<td><button class=\'details_btn\' id=\'details_'+ data.Id +'\'>Details</button>'
+
+        if(!data.Deleted){
+        
+            $('#training_table').append(result)
+         }
     }
 }
 
