@@ -1,14 +1,29 @@
 body{
     background-color: #bbb6d6;
+    text-align: center;
+
+    padding-bottom: 20px;
+    border-bottom: 1px solid black;
 }
 
-#fitness_table{
-    border: black 1px solid;
+table{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  /* border-collapse:collapse; */
 }
 
-#fitness_table tr{
-    border: black 1px solid;
+
+table td, th{
+  padding-left: 5px;
+  padding-right: 5px;
 }
+
+
+#comment_table td{
+  border: black 1px solid;
+}
+
 #fitness_table td{
   border: black 1px solid;
 }
@@ -57,6 +72,10 @@ body{
   display: none;
 }
 
+#comment_text{
+  width: 500px;
+}
+
 #profile_nav{
   float: right;
 }
@@ -64,6 +83,23 @@ body{
 .error
 {
  border:2px solid red;
+}
+
+.div_top_border{
+  border-top:1px solid black;
+  
+}
+
+#group_table td{
+  border:1px solid black;
+}
+
+#group_table tr{
+  border:1px solid black;
+}
+
+#comments_div{
+  border-top:1px solid black;
 }
 
 .topnav {

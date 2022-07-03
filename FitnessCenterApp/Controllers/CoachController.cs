@@ -65,6 +65,21 @@ namespace FitnessCenterApp.Controllers
         }
 
 
+        [HttpGet]
+        public string GetUser(string username)
+        {
+            List<Coach> users = WorkingWithFiles.ReadEntitiesFromFIle<Coach>(path);
+            Coach user = users.FirstOrDefault(x => x.Username.Equals(username));
+
+            if (user == null)
+            {
+                return JsonSerializer.Serialize("");
+            }
+
+            return JsonSerializer.Serialize(user);
+        }
+
+
         [HttpPut]
         [Route("api/AddCoachToCenter")]
         public HttpResponseMessage AddCoachToFitnessCenter(int id, string username)

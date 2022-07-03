@@ -75,7 +75,7 @@ $('#edit_profile_form').submit(function (e) {
 
 
     if(name == '' || lastname == '' || email == '' || birth == '' || oldPassword == ''){
-        alert('Some data are empty')
+        alert('Some data are missing')
         return false
     }
 
@@ -90,14 +90,6 @@ $('#edit_profile_form').submit(function (e) {
         updatePassword = oldPassword
     }
 
-    // public string Username { get; set; }
-    //     public string Password { get; set; }
-    //     public string Name { get; set; }
-    //     public string Lastname { get; set; }
-    //     public Gender UserGender { get; set; }
-    //     public string Email { get; set; }
-    //     public DateTime Birth { get; set; }
-    //     public Role UserRole { get; set; }
 
     let query = {Username:CurrentUser.Username, Name:name, Lastname:lastname, Password:updatePassword,
                 Email:email, UserGender:gender, Birth:birth, UserRole:CurrentUser.UserRole}

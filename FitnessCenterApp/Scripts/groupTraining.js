@@ -210,12 +210,23 @@ $('#coach_trainings_details').click(function (e) {
 });
 
 function AddFitnessNameToSelect(element){
-    if(!element.Deleted){
-        let value = '<option id=\'option_' + element.Id + '\'>' + element.Name + '</option>'
-        
-        $('#select_place').append(value)
-        
-    }
+    $.ajax({
+        type: "GET",
+        url: "../api/Coach?username=" + CoachUsername,
+        data: "",
+        dataType: "json",
+        complete: function (response) {
+            let user = JSON.parse(response.responseJSON)
+            
+            if(!element.Deleted && element.Id == user.WorkingInFitnessCenter){
+                let value = '<option id=\'option_' + element.Id + '\'>' + element.Name + '</option>'
+                
+                $('#select_place').append(value)
+                
+            }
+        }
+    });
+    
     
     
 }

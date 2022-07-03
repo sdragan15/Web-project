@@ -212,7 +212,7 @@ function GenerateAllVerifiedComments(id){
             data.forEach(element => {
                 if(element.Verified){
                     let query = '<tr><td>' + element.FromUser + '</td>' +
-                    '<td>' + element.Text + '</td>' +
+                    '<td><div id=\'comment_text\'>' + element.Text + '</div></td>' +
                     '<td>' + element.Grade + '</td></tr>'
                     $('#comment_table').append(query)
                 }

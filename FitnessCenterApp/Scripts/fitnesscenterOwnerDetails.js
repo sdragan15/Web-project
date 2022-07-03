@@ -181,7 +181,7 @@ function GetAllGroupTrainings(id){
         dataType: "json",
         success: function (response) {
             data = JSON.parse(response)
-            console.log(data)
+            data = CustomSortTrainingDate(data, 1)
             data.forEach(element => {
                 GenerateGroupTraining(element)
                 console.log('broj: ' + element.Id)
