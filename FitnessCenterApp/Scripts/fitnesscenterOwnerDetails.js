@@ -234,7 +234,7 @@ function GenerateAllCommentsForFitnessCenter(id){
                 }
                 
                 let query = '<tr><td>' + element.FromUser + '</td>' +
-                            '<td>' + element.Text + '</td>' +
+                            '<td><div id=\'comment_text\'>' + element.Text + '</div></td>' +
                             '<td>' + element.Grade + '</td>' +
                             buttonText + '</tr>'
 
